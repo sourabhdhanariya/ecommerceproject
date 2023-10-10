@@ -1,0 +1,218 @@
+
+div.dataTables_wrapper div.dataTables_info {
+    padding-top: 0.85em;
+    display: none;
+}
+        /* Your custom styles */
+        .main {
+            font-family: Arial;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .star{
+            color:red;
+        }
+        .error{
+            color:red;
+        }
+        .main {
+            font-family: Arial;
+            width: 500px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h3 {
+            background: #fff;
+            color: #3498db;
+            font-size: 36px;
+            line-height: 100px;
+            margin: 10px;
+            padding: 2%;
+            position: relative;
+            text-align: center;
+        }
+
+        .action {
+            display: block;
+            margin: 100px auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        .action a {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #f30;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .action a:hover {
+            background: #000;
+        }
+        
+        /* Rest of your custom styles... */
+  
+ .data-grid-container {
+  /* Add desired styling for the container */
+  text-align: center; /* Center the pagination */
+}
+
+.dataTables_paginate, .paging_simple_numbers {
+  display: inline-block; /* Display as inline block to center within the container */
+  
+}
+
+ .buttonsize{
+    font-size: 14px;
+    font-weight: 500;
+ }
+    /* previe image center  */
+    .previewImages img,
+    .previewImages video {
+        max-width: 100px;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+    }
+    .centerimage{
+        margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+    }
+.imageweightview{
+    width: 22px;
+}
+.tooglelineremove{
+    text-decoration:none;
+}
+.previewImagesModelBox .close-button{
+
+    display: none;
+}
+    .previewImagesModelBox img,
+    .previewImagesModelBox video {
+        max-width: 100px;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+        
+       
+        display: block;
+    
+  margin-left: auto;
+  margin-right: auto;
+    }
+ .playnowcolor{
+    background-color:#fda12e;
+    }
+
+    .buynowcolor{
+    background-color:#ff621f;
+    }
+ 
+    .previewlogo{
+        display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100px;
+    }
+    .previewlogo1{
+        display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 100px;
+    }
+    #media-container {
+      white-space: nowrap; /* Prevent line breaks */
+      overflow-x: scroll; /* Add horizontal scroll if media items overflow */
+      width: 100%; /* Expand the container to the full width of the screen */
+    }
+
+    /* Style for individual media items */
+    .media-item {
+      max-width: 100px; /* Adjust the maximum width of the media item */
+      height: auto; /* Allow the height to adjust based on content */
+      display: inline-block; /* Display media items in a line */
+      margin-right: 10px; /* Add some spacing between media items */
+      border: 1px solid #adacac;
+      position: relative; /* Position relative for close button positioning */
+    }
+
+    /* Style for the media item images within the thumbnail */
+    .media-item.img-thumbnail img,
+    .media-item.img-thumbnail video {
+        margin-top:12px;
+      max-width: 90px;
+       /* Set the maximum width */
+      max-height: 100px; /* Set the maximum height */
+      width: auto; /* Allow the width to adjust based on content */
+      height: auto; /* Allow the height to adjust based on content */
+    }
+
+    /* Style for the close button */
+    .close-button {
+      position: absolute; /* Position absolute for close button */
+      top: 5px; /* Adjust top position to provide spacing */
+      right: 5px; /* Adjust right position to provide spacing */
+      background-color: rgba(255, 255, 255, 0.8); /* Background color for visibility */
+      border: none; /* Remove border */
+      border-radius: 50%; /* Make it a circle */
+      padding: 2px 6px; /* Add some padding */
+      cursor: pointer; /* Change cursor on hover */
+    }
+
+    
+    
+    
+    .margincheckbox{
+        margin-left:-72px;
+    }
+.toogleweight {
+  transform: scale(2); /* Increase the size of the toggle */
+}
+.toogle {
+  display: flex;
+  align-items: center;
+  margin-left: 27px;
+}
+    .width{
+    width:197px;
+}
+.margin{
+    margin-right:34px;
+}
+.morris-hover {
+  position:absolute;
+  z-index:1000;
+}
+.tablesize{
+    font-size:small
+}
+.morris-hover.morris-default-style {     border-radius:10px;
+  padding:6px;
+  color:#666;
+  background:rgba(255, 255, 255, 0.8);
+  border:solid 2px rgba(230, 230, 230, 0.8);
+  font-family:sans-serif;
+  font-size:12px;
+  text-align:center;
+}
+
+.morris-hover.morris-default-style .morris-hover-row-label {
+  font-weight:bold;
+  margin:0.25em 0;
+}
+
+.morris-hover.morris-default-style .morris-hover-point {
+  white-space:nowrap;
+  margin:0.1em 0;
+}
+
+svg { width: 100%; }
+    

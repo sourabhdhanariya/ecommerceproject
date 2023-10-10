@@ -1,0 +1,109 @@
+
+
+.logoimage{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  height: 100px;
+  weight:100px;
+
+}
+.iconimage{
+  color: white;
+}
+.magincenter{
+  margin-right: auto;
+  margin-right: 114px;
+
+}
+.box{
+  /* border: 2px solid white;
+  border-radius: 5px; */
+  margin-left: 43px;
+}
+.translogo{
+  color: #9a9d9e;
+}
+.notification{
+  margin-top: 8px;
+  height: 50px;
+  width: 50px;
+}
+.margin{
+  margin-top: 10%;
+  box-shadow: 0px 7px 9px 0px #888888;
+  padding: 20px;
+  background: white;
+}
+.background{
+  
+background-image: url("images/bodyimage.jpg");
+  image-orientation: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logoimage1{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  height: 200px;
+  weight:200px;
+
+}
+.button{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  
+}
+.star{
+  color: red;
+}
+.error{
+  color: red;
+}
+.toogle {
+  display: flex;
+  align-items: center;
+  margin-left: 27px;
+}
+
+.toogleweight {
+  transform: scale(2); /* Increase the size of the toggle */
+}
+.okk{
+  padding-left: 46px;
+  padding-right: 50px;
+}
+.categoryimage{
+  width: 100px;
+  height: 100px;
+}
+.text-primary {
+  color: blue;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.text-danger {
+  color: red;
+  font-weight: bold;
+  font-size: 22px;
+}
+#category-id-placeholder {
+  display: none; /* Hide the Category ID initially */
+}
+.hidden{
+  visibility: hidden;
+}
+.cardwidth{
+  width: 220px;
+}

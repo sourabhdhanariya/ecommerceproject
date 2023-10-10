@@ -1,0 +1,284 @@
+      /* Style for body and footer codepen :)  
+  Designed by RuLiweb - ruliweb.it */
+  .datepicker-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #31639c;
+    font-size: 20px;
+  }
+  
+  .calendar{
+    margin-bottom:200px;
+  }
+  .class-link{
+    color:#333333;
+    text-decoration:none;
+  }
+  
+  .class-link:hover{
+   color:#ffbb00; 
+  }
+  
+  /* From here you can start to copy */
+  
+  .calendar {
+    padding:8px;
+    background: #ffffff;
+    border-radius: 4px;
+    font-size:18px;
+    border: 1px solid #333333;
+    box-shadow: 0px 20px 40px rgba(59,60,56,0.05);
+  }
+  .ui-datepicker {
+    background: #ffffff;
+    border-radius: 15px;
+  }
+  .ui-datepicker-header {
+    height: 50px;
+    line-height: 50px;
+    color: #ffffff;
+    background: #31639c;
+    margin-bottom: 10px;
+  }
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    width: 20px;
+    height: 20px;
+    text-indent: 9999px;
+    border-radius: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .ui-datepicker-prev {
+    float: left;
+    margin-left: 12px;
+  }
+  .ui-datepicker-prev:after {
+    transform: rotate(45deg);
+    margin: -43px 0px 0px 8px;
+  }
+  .ui-datepicker-next {
+    float: right;
+    margin-right: 12px;
+  }
+  .ui-datepicker-next:after {
+    transform: rotate(-135deg);
+    margin: -43px 0px 0px 6px;
+  }
+  .ui-datepicker-prev:after,
+  .ui-datepicker-next:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+  }
+  .ui-datepicker-prev:hover,
+  .ui-datepicker-next:hover,
+  .ui-datepicker-prev:hover:after,
+  .ui-datepicker-next:hover:after {
+    border-color: #333333;
+  }
+  .ui-datepicker-title {
+    text-align: center;
+    font-size:25px;
+  }
+  .ui-datepicker-calendar {
+    width: 100%;
+    text-align: center;
+  }
+  .ui-datepicker-calendar thead tr th span {
+    display: block;
+    width: 40px;
+    color: #31639c;
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+  .ui-state-default {
+    display: block;
+    text-decoration: none;
+    color: #333333;
+    line-height: 40px;
+    font-size: 16px;
+  }
+  .ui-state-default:hover {
+    color: #ffffff;
+    background:#31639c;
+    border-radius:50px;
+    transition: all 0.25s cubic-bezier(0.7, -0.12, 0.2, 1.12);
+  }
+  .ui-state-highlight {
+    color: #ffffff;
+    background-color:#31639c;
+    border-radius:50px;
+  }
+  
+  .ui-state-active {
+    color: #ffffff;
+    background-color:#31639c;
+    border-radius:50px;
+  }
+  .ui-datepicker-unselectable .ui-state-default {
+    color: #eee;
+    border: 2px solid transparent;
+  }
+  
+  .icon {
+      margin-left: -30px;
+      margin-top: -26px;
+      position: relative;
+      color: #31639c;
+      font-size:20px;
+  }
+      /* Rest of the existing CSS code */
+  
+      .datepicker-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        color: #31639c;
+        font-size: 20px;
+      }
+      .mtt-5 {
+    margin-top: 2rem!important;
+}
+.mpreviewCategoryId{
+    margin-top:10px
+  
+  }
+/*   
+  .slider  video {
+            width: 500px;
+      height: 100px;
+      display:block;
+      margin: auto;       } */
+  
+  .slider div img {
+    width: 162px;
+    /* height: 105px; */
+    margin: auto;
+    border: 2px solid;
+    padding: 10px;
+    box-shadow: 6px 4px 8px -2px;
+    margin-top: 38px;      }
+  /* styles.css */
+ 
+          .slider div video {
+            width: 100%;
+      height: 108px;
+      display:block;
+      margin: auto;
+      margin-top: 38px;        }
+  .ag-format-container {
+  
+    margin: 0 auto;
+  }
+  .slick-track{
+        /* position: relative; */
+        top: 0;
+        left: 0;
+        /* display: block; */
+        margin-left: none;
+        padding-right:117px;
+        margin-right: none;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .layout {
+    width: 600px;
+    margin: 10px auto;
+    position: relative;
+  }
+  .layout a {
+    color: #666;
+  }
+  
+  .slide {
+    display: none;
+  }
+  .slide li {
+    list-style: none;
+  }
+  .slide.slick-initialized {
+    display: block;
+  }
+  
+  .slick-dots {
+    margin-top: 5px;
+    margin-left: -5px;
+    margin-right: -5px;
+    overflow:auto;
+    display: flex;
+    justify-content: center;
+  }
+  .slick-dots li {
+    display: inline-block;
+    max-height: 146px;
+    max-width: 112px;
+    margin: 5px;
+  }
+
+  .slick-dots li img {
+    
+    width: 82px;
+    width: 87px;
+    margin-top: 47px;
+    cursor: pointer;
+    opacity: 0.5;
+  }
+  .slick-dots li.slick-active img {
+    cursor: default;
+  
+    opacity: 1;
+  }
+  
+  
+  
+  .icon {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+  }
+  .icon__cnt {
+    height: 100%;
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .ag-format-container {
+      width: 96%;
+    }
+  
+  }
+  
+  @media only screen and (max-width: 639px) {
+  
+  }
+  
+  @media only screen and (max-width: 479px) {
+  
+  }
+  
+  @media (min-width: 768px) and (max-width: 979px) {
+    .ag-format-container {
+      width: 750px;
+    }
+  
+  }
+  
+  @media (min-width: 980px) and (max-width: 1161px) {
+    .ag-format-container {
+      width: 960px;
+    }
+  
+  }
