@@ -31,16 +31,16 @@
                                 </li>
 
                                 <li>
-                                    <a href="bs-basic-table.html">
+                                    <a href="customer.php">
                                         <span class="pcoded-micon"><i class="bi bi-person-circle"></i></i><b>FC</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">User Management</span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Customer Management</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
 
                                 
                                 <li>
-                                    <a href="bs-basic-table.html">
+                                    <a href="order.php">
                                         <span class="pcoded-micon"><i class="bi bi-border-all"></i><b>FC</b></span>
                                         <span class="pcoded-mtext" data-i18n="nav.form-components.main">Order Management</span>
                                         <span class="pcoded-mcaret"></span>

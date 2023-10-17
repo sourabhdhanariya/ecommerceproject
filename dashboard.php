@@ -1,19 +1,7 @@
-
-
-
-<?php include 'header.php' ?>
-<?php include 'sidebar.php' ?>
-<?php
-
-// Check if user is logged in
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Display dashboard content for logged-in users
+<?php 
+    include 'header.php'; 
+    include 'sidebar.php';
 ?>
-
 <div class="pcoded-content">
                         <div class="pcoded-inner-content">
                             <div class="main-body">
@@ -21,7 +9,6 @@ if (!isset($_SESSION['email'])) {
 
                                     <div class="page-body">
                                       <div class="row">
-
                                             <!-- order-card start -->
                                             <div class="col-md-6 col-xl-2 margin">
                                                 <div class="card bg-c-blue order-card width" >
@@ -70,7 +57,6 @@ if (!isset($_SESSION['email'])) {
                                                 </div>
                                             </div>
                                             <!-- order-card end -->
-
                                             <!-- statustic and process start -->
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="card">
@@ -80,14 +66,10 @@ if (!isset($_SESSION['email'])) {
   <option value="1">Yearly</option>
   <option value="2">Weakly</option>
   <option value="2">Daily</option>
-
-  
- 
 </select>
 </div>
-
               </div>
-                                                    <div class="card-header">
+                                                  <div class="card-header">
                   
   <section class="container-fluid">
     <div class="row">
@@ -101,7 +83,7 @@ if (!isset($_SESSION['email'])) {
                    </div>                       </div>
                                             </div>
                                             <!-- statustic and process end -->
-											<!-- tabs card start -->
+										
                                 </div>
                             </div>
                         </div>
@@ -109,49 +91,4 @@ if (!isset($_SESSION['email'])) {
                 </div>
             </div>
         </div>
-
-        <!-- Warning Section Starts -->
-        <!-- Older IE warning message -->
-    <!--[if lt IE 9]>
-<div class="ie-warning">
-    <h1>Warning!!</h1>
-    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
-    <div class="iew-container">
-        <ul class="iew-download">
-            <li>
-                <a href="http://www.google.com/chrome/">
-                    <img src="assets/images/browser/chrome.png" alt="Chrome">
-                    <div>Chrome</div>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.mozilla.org/en-US/firefox/new/">
-                    <img src="assets/images/browser/firefox.png" alt="Firefox">
-                    <div>Firefox</div>
-                </a>
-            </li>
-            <li>
-                <a href="http://www.opera.com">
-                    <img src="assets/images/browser/opera.png" alt="Opera">
-                    <div>Opera</div>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.apple.com/safari/">
-                    <img src="assets/images/browser/safari.png" alt="Safari">
-                    <div>Safari</div>
-                </a>
-            </li>
-            <li>
-                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-                    <img src="assets/images/browser/ie.png" alt="">
-                    <div>IE (9 & above)</div>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <p>Sorry for the inconvenience!</p>
-</div>
-<![endif]-->
-<!-- Warning Section Ends -->
 <?php include 'footer.php' ?>

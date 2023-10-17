@@ -1,6 +1,6 @@
 <?php 
 
-include 'function.php';
+include 'database.php';
 session_start();
 
 // Check if user is logged in
@@ -46,6 +46,7 @@ if (!isset($_SESSION['email'])) {
       <link rel="stylesheet" type="text/css" href="assets/css/style.css">
       <link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
       <link rel="stylesheet" href="css/bootstrap.min.css" />
+      
     
     <link
       rel="stylesheet"
@@ -53,14 +54,12 @@ if (!isset($_SESSION['email'])) {
     />
     <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css" />
    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <link rel="stylesheet" href="https://www.cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  
 <meta charset=utf-8 />
 <!-- 
@@ -69,15 +68,66 @@ if (!isset($_SESSION['email'])) {
   <script src="//cdn.gaic.com/cdn/ui-bootstrap/0.58.0/js/lib/ckeditor/ckeditor.js"></script>
   <script src="//cdn.gaic.com/cdn/ui-bootstrap/0.58.0/js/lib/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- //addproduct -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 <!-- 
+    
 //slider -->
 <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <!-- Include toastr.css for styling -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 <link rel="stylesheet" href="css/header.css"/>
+
+<link rel="stylesheet" href="css/category.css"/>
+  
   <style>
-    
+  
+/* Define styles for the active and deactive classes */
+.active {
+    color: blue;
+}
+
+.deactive {
+    color: red;
+}
+  
+    .status-toggle {
+        
+        border-radius: 4px;
+        cursor: pointer;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: none;
+        }
+        #category-image{
+            width: 15px;
+        }
+        #category-image:hover {
+      transform: scale(1.1);   
+    }
+    .active-button {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+    }
+
+    .inactive-button {
+        background: linear-gradient(to right, #e74c3c, #c0392b);
+        color: white;
+    }
+.toast-top-right {
+    top: 83px !important;
+    right: 12px;
+}
     div.dataTables_wrapper div.dataTables_info {
     padding-top: 0.85em;
     display: none;
@@ -298,6 +348,7 @@ if (!isset($_SESSION['email'])) {
 
 svg { width: 100%; }
     </style>
+    
     </head>
 
   <body>

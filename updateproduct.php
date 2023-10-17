@@ -2,6 +2,10 @@
 <?php include 'header.php';
  include 'sidebar.php';
  $obj = new Database();
+ 
+ $successMessage = '';
+ $errorMessage = '';
+ 
 
  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      $product_title = $_POST['product_title'];
@@ -9,11 +13,10 @@
      $product_price = $_POST['productPrice'];
      $product_discount = $_POST['product_discount'];
  
-     // Ensure that the price is not greater than the discount
      if ($product_price <= $product_discount) {
          echo "Price cannot be greater than the discount.";
+         
      } else {
-         // Continue with the rest of the code for valid input
          $product_quantity = $_POST['prod_quantity'];
          $skuProduct = $_POST['skuProduct'];
          $category = $_POST['category'];
@@ -21,7 +24,7 @@
          $productLaunchFormatted = date('Y-m-d', strtotime($_POST['launch']));
          $status = isset($_POST["status"]) && $_POST["status"] == "on" ? 1 : 0;
          $id = isset($_POST['id']) ? $_POST['id'] : '';
-         $uploadedFiles = array(); // Initialize the array
+         $uploadedFiles = array(); 
  
          if (isset($_FILES['imageFile']) && is_array($_FILES['imageFile']['name'])) {
              $uploadDir = 'images/';
@@ -56,20 +59,19 @@
  
          $whereClause = "product_id = $id";
          $updateResult = $obj->updateData('products', $updateParams, $whereClause);
-         $obj->deleteProduct('media_master', "product_id = $id");
+         $obj->deleteData('media_master', "product_id = $id");
  
          if ($updateResult) {
-             // Update images in the media_master table for the remaining uploaded files
              for ($i = 1; $i < count($uploadedFiles); $i++) {
                  $mediaUpdateParams = array(
-                     'product_id' => $id,  // Add the product_id
+                     'product_id' => $id,  
                      'image_path' => 'images/' . $uploadedFiles[$i],
                  );
                  $mediaWhereClause = "product_id = $id";
  
-                 $obj->insertProduct('media_master', $mediaUpdateParams, $mediaWhereClause);
+                 $obj->insertMutipleData('media_master', $mediaUpdateParams, $mediaWhereClause);
              }
-             $updatedProduct = $obj->sql("SELECT * FROM products WHERE product_id = $id");
+             $updatedProduct = $obj->sqlData("SELECT * FROM products WHERE product_id = $id");
          } else {
              echo "Failed to update product. Error: " . implode(', ', $obj->getResult());
          }
@@ -79,7 +81,7 @@
 // Performed select query  
 $id = isset($_GET['updateid']) ? $_GET['updateid'] : '';
 $obj = new Database();
-$obj->sql("SELECT * FROM products WHERE product_id = '$id'");
+$obj->sqlData("SELECT * FROM products WHERE product_id = '$id'");
 $results = $obj->getResult();
 
 if (!empty($results)) {
@@ -97,16 +99,14 @@ if (!empty($results)) {
     $category_subproductid = $results[0]['subcategory_id'];
     
 
-    $product_image = $results[0]['product_image'];  // Added parent_category_id
-    // Fetch product images from media_master table
-    $obj->sql("SELECT product_image, image_path FROM media_master WHERE product_id = '$id'");
+    $product_image = $results[0]['product_image']; 
+    $obj->sqlData("SELECT product_image, image_path FROM media_master WHERE product_id = '$id'");
     $mediaResults = $obj->getResult();
     if (!empty($mediaResults)) {
-        // You can handle the media results as needed, e.g., loop through them
         $product_images = $mediaResults;
         
     } else {
-        $product_images = array(); // No images found for this product.
+        $product_images = array(); 
     }
 } else {
     $product_title = '';
@@ -124,20 +124,8 @@ if (!empty($results)) {
 
 }
 
-// Fetch parent category name
-// $parentCategoryName = '';
-// if (!empty($category_id)) {
-//     $obj->sql("SELECT product_title FROM products WHERE product_id = '$category_id'");
-//     $parentCategoryResult = $obj->getResult();
-//     if (!empty($parentCategoryResult)) {
-//         $parentCategoryName = $parentCategoryResult[0]['product_title'];
-//     }
-// }
-
 ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
@@ -156,7 +144,7 @@ if (!empty($results)) {
 									<!-- Page-header start -->
                                     <div class="page-header card">
                                         <div class="card-block">
-                                            <h5 class="m-b-10">Update Product </h5>
+                                            <h5 class="m-b-10">Update Product Management</h5>
                                             <!-- <p class="text-muted m-b-10">lorem ipsum dolor sit amet, consectetur adipisicing elit</p> -->
                                             <ul class="breadcrumb-title b-t-default p-t-10">
                                                 <li class="breadcrumb-item">
@@ -164,7 +152,7 @@ if (!empty($results)) {
                                                 </li>
                                                <li class="breadcrumb-item"><a href="#!">Dashboard</a>
                                                         </li>
-                                                        <li class="breadcrumb-item " ><a href="#!">Update Product </a>
+                                                        <li class="breadcrumb-item " ><a href="#!">Update Product Management</a>
                                                         </li>
                                           <li class="float-end text-primary">         
                                             <form method="post" action="">
@@ -212,16 +200,15 @@ if (!empty($results)) {
   <select id="categoryId"  name="category" class="form-select">
     <?php 
 
-    $obj = new Database();
+    $obj = new Categories();
     
-    $categories = $obj->getProductCategories();
+    $categories = $obj->getCategories();
        
     if (!empty($categories)) {
       foreach ($categories as $row) {
         $category_id = $row['category_id'];
         $category_name = $row['category_name'];
-        // echo '<option value="' . $category_id . '">' . $category_name . '</option>';
-
+ 
         $selected = ($category_id == $category_productid) ? 'selected="selected"' : '';
 
         echo '<option value="' . $category_id . '.' . $category_name . '" ' . $selected . '>' . $category_name . '</option>';
@@ -239,19 +226,18 @@ if (!empty($results)) {
   <select id="subCategoryId" name="subcategoryid" class="form-select">
     <?php 
     
-    $obj = new Database();
-    $obj->sql('SELECT c1.category_id, c1.category_name, c1.parent_category_id,
-    c1.category_description, c1.category_image_path, c1.status,
-    c2.category_name AS parent_category_name
-    FROM categories c1
-    INNER JOIN categories c2 ON c1.parent_category_id = c2.category_id');
-    
-    // Fetch the results into an associative array
-    $results = $obj->getResult();
-    
-    // Display a "null" option
+    $obj = new ProductCategories();
 
-    // Check if results are not empty
+    $results = $obj->getProductCategories();
+    
+    // $obj->sqlData('SELECT c1.category_id, c1.category_name, c1.parent_category_id,
+    // c1.category_description, c1.category_image_path, c1.status,
+    // c2.category_name AS parent_category_name
+    // FROM categories c1
+    // INNER JOIN categories c2 ON c1.parent_category_id = c2.category_id');
+    
+    // $results = $obj->getResult();
+    
     if (!empty($results)) {
 
         
@@ -262,11 +248,9 @@ if (!empty($results)) {
 
         echo '<option value="' . $category_id . '.' . $sub_category_name . '" ' . $selected . '>' . $sub_category_name . '</option>';
        
-        // echo '<option value="' . $category_id .'.' . $sub_category_name . '">' . $sub_category_name . '</option>';
        
        }
     } else {
-      // If no results, display a default message
       echo '<option value="0">No Parent Categories found</option>';
     }
     ?>
@@ -351,11 +335,10 @@ if (!empty($product_images)) {
         $image_path = $image['image_path'];
         $product_image = $image['product_image'];
 
-        // Display the image with a link to its path
         echo '<img  src="' . $image_path .'" width="100px" alt="2333">';
     }
 } else {
-    // echo '<p>No images found for this product.</p>';
+
 }
 ?>
 </div>

@@ -1,22 +1,10 @@
 
-<?php include 'header.php' ?>
-<?php include 'sidebar.php' ?>
-<?php    
-
-
-// Check if user is logged in
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit();
-}
-
-
-
-
-?>
-
- <?php
+<?php include 'header.php';
+ include 'sidebar.php'; 
 $obj = new Database();
+
+$successMessage = '';
+$errorMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoryName = $_POST['categoryName'];
@@ -36,12 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Image uploaded successfully.";
         } else {
             echo "Failed to upload image.";
-            $uploadedFile = '';  // Reset uploadedFile in case of failure
+            $uploadedFile = '';  
         }
     }
 
-    // Update the category information in the database
-    // Only update image path if a new image was uploaded
     $updateParams = array(
         'category_name' => $categoryName,
         'category_description' => $categoryDescription,
@@ -49,25 +35,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if (!empty($uploadedFile)) {
-        // Only update the image path if a new image was uploaded
         $updateParams['category_image_path'] = $uploadedFile;
     }
 
-    $whereClause = "category_id = $id"; // Assuming $id contains the category ID
+    $whereClause = "category_id = $id";
     $updateResult = $obj->updateData('categories', $updateParams, $whereClause);
 
     if ($updateResult) {
-        // Fetch the updated category information
-        $updatedCategory = $obj->sql("SELECT category_id, category_name, category_image_path FROM categories WHERE category_id = $id");
+        $updatedCategory = $obj->sqlData("SELECT category_id, category_name, category_image_path FROM categories WHERE category_id = $id");
         $selectedCategoryID = isset($updatedCategory[0]['category_id']) ? $updatedCategory[0]['category_id'] : '';
         $categoryImagePath = isset($updatedCategory[0]['category_image_path']) ? $updatedCategory[0]['category_image_path'] : '';
 
-        echo "Category updated successfully! Selected category ID: $selectedCategoryID";
+        $successMessage = ' Update Successfully';
+            
     } else {
-        echo "Failed to update category. Error: " . implode(', ', $obj->getResult());
+        $errorMessage = 'Update Unsuccessfully';
     }
 }
 ?>
+
+<?php if (!empty($successMessage)): ?>
+    <script>
+        toastr.success('<?php echo $successMessage; ?>', 'Success');
+    </script>
+<?php endif; ?>
+
+<?php if (!empty($errorMessage)): ?>
+    <script>
+        toastr.error('<?php echo $errorMessage; ?>', 'Error');
+    </script>
+<?php endif; ?>
 
 <div class="pcoded-content">
                         <div class="pcoded-inner-content">
@@ -77,17 +74,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 									<!-- Page-header start -->
                                     <div class="page-header card">
                                         <div class="card-block">
-                                            <h5 class="m-b-10">Update Category </h5>
+                                            <h5 class="m-b-10">Update Category Management </h5>
                                             <!-- <p class="text-muted m-b-10">lorem ipsum dolor sit amet, consectetur adipisicing elit</p> -->
                                             <ul class="breadcrumb-title b-t-default p-t-10">
-                                                <li class="breadcrumb-item">
-                                                    <a href="index.html"> <i class="fa fa-home"></i> </a>
-                                                </li>
-                                               <li class="breadcrumb-item"><a href="#!">Dashboard</a>
-                                                        </li>
-                                                        <li class="breadcrumb-item"><a href="#!">Update Category </a>
-                                                        </li>
-                                            </ul>
+              <li class="breadcrumb-item">
+                <a href="index.html"> <i class="fa fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item "><a href="#!">Update Category Management</a>
+              </li>
+            </ul>
+                                       
                                         </div>
                                     </div>
                                     <!-- Page-header end -->
@@ -103,25 +101,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 
 $obj = new Database();
-$obj->sql("SELECT * FROM categories WHERE category_id = '$id'");
+$obj->sqlData("SELECT * FROM categories WHERE category_id = '$id'");
 $results = $obj->getResult();
 
 if (!empty($results)) {
     $category_name = $results[0]['category_name'];
     $categoryDescription = $results[0]['category_description'];
     $categoryImagePath = $results[0]['category_image_path'];
-    $parent_category_id = $results[0]['parent_category_id'];  // Added parent_category_id
+    $parent_category_id = $results[0]['parent_category_id'];  
 } else {
     $category_name = '';
     $categoryDescription = '';
     $categoryImagePath = '';
-    $parent_category_id = '';  // Set a default value for parent_category_id
+    $parent_category_id = '';  
 }
 
 // Fetch parent category name
 $parentCategoryName = '';
 if (!empty($parent_category_id)) {
-    $obj->sql("SELECT category_name FROM categories WHERE category_id = '$parent_category_id'");
+    $obj->sqlData("SELECT category_name FROM categories WHERE category_id = '$parent_category_id'");
     $parentCategoryResult = $obj->getResult();
     if (!empty($parentCategoryResult)) {
         $parentCategoryName = $parentCategoryResult[0]['category_name'];
@@ -132,30 +130,21 @@ if (!empty($parent_category_id)) {
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Category Name <span class="star">*</span></label>
     <input type="text" class="form-control tablesize" value="<?php echo htmlspecialchars($category_name); ?>" name="categoryName" id="inputEmail4">
-    <input type="hidden" name="id" value="<?= $id ?>"> <!-- Add this hidden input for category ID -->
+    <input type="hidden" name="id" value="<?= $id ?>"> 
     
 </div>
 <div class="col-md-6">
     <label for="parent_category_id" class="form-label">Parent Category</label>
     <select id="parent_category_id" name="parent_category_id" class="form-select tablesize">
-        <option value="">Select a parent category</option>
+  
         <?php
-        // Fetch parent categories
-        $obj->sql('SELECT c1.category_id, c1.category_name, c1.parent_category_id,c1.category_description,
-        c1.category_image_path, c1.status,
-        c2.category_name AS parent_category_name
-        FROM categories c1
-        LEFT JOIN categories c2 ON c1.parent_category_id = c2.category_id;');
-        $parentCategories = $obj->getResult();
-
-        // Loop through the results and populate the dropdown
+        
+        $obj = new Categories();
+        $parentCategories = $obj->getCategories();
         foreach ($parentCategories as $category) {
             $category_id = $category['category_id'];
             $category_name = $category['category_name'];
-
-            // Check if this category is the parent category for the selected category
             $selected = ($category_id == $parent_category_id) ? 'selected="selected"' : '';
-
             echo '<option value="' . $category_id . '" ' . $selected . '>' . $category_name . '</option>';
         }
         ?>
@@ -165,7 +154,6 @@ if (!empty($parent_category_id)) {
 <div class="col-12">
     <label for="">Category Description <span class="star">*</span></label>
     <div class="form-floating tablesize">
-      <!-- <textarea class="form-control" name="categoryDes" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></?php echo htmlspecialchars($categoryDescription); ?></textarea> -->
       <textarea name="categoryDes" id="editor" cols="30" rows="10">
       <?php echo htmlspecialchars($categoryDescription); ?>
     </textarea>
@@ -180,10 +168,10 @@ if (!empty($parent_category_id)) {
 
 <div class="col-md-4">
     <?php
-    // Determine the image source
+
     $imageSrc = (!empty($_FILES["categoryImage"]["name"])) ? "images/" . htmlspecialchars($_FILES["categoryImage"]["name"]) : $categoryImagePath;
 
-    // Display the image
+ 
     if (!empty($imageSrc) && file_exists($imageSrc)) {
         echo '<img src="' . $imageSrc . '" class="categoryimage" id="img-upload-tag" alt="category" width="60px" />';
     } else {
@@ -192,49 +180,16 @@ if (!empty($parent_category_id)) {
     ?>
 </div>
 
- <div class="col-8 m-3">
+ <div class="col-md-12 ">
     <a class="btn btn-outline-dark buttonsize" href="category.php" role="button">
       Cancel
     </a>
     <button type="submit" name="submit" value="submit" class="btn btn-primary float-end buttonsize">Save</button>
   </div>
 </form>
+</div>
+           
 
 
-                                        </div>
-                                        <script>
-    CKEDITOR.replace('editor', {
-  skin: 'moono',
-  enterMode: CKEDITOR.ENTER_BR,
-  shiftEnterMode:CKEDITOR.ENTER_P,
-  toolbar: [{ name: 'basicstyles', groups: [ 'basicstyles' ], items: [ 'Bold', 'Italic', 'Underline', "-", 'TextColor', 'BGColor' ] },
-             { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
-             { name: 'scripts', items: [ 'Subscript', 'Superscript' ] },
-             { name: 'justify', groups: [ 'blocks', 'align' ], items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-             { name: 'paragraph', groups: [ 'list', 'indent' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'] },
-             { name: 'links', items: [ 'Link', 'Unlink' ] },
-             { name: 'insert', items: [ 'Image'] },
-             { name: 'spell', items: [ 'jQuerySpellChecker' ] },
-             { name: 'table', items: [ 'Table' ] }
-             ],
-});
-
-  </script>
-            
-            <script type="text/javascript">
-    function readURL(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $('#img-upload-tag').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-    $("#img-upload").change(function () {
-      readURL(this);
-    });
-  </script>
-
-
+                        <script src="./js/updatecategory.js"></script>
 <?php include 'footer.php' ?>

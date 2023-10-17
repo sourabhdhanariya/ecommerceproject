@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-// Add event listener to toggle status for buttons
 const statusButtons = document.querySelectorAll('.status-toggle');
 statusButtons.forEach(button => {
     button.addEventListener('click', function() {
@@ -56,10 +55,32 @@ statusButtons.forEach(button => {
         const activeInput = this.closest('form').querySelector('input[name="active"]');
         activeInput.value = newStatus;
 
+        // Update the button's class to change the text color
+        this.classList.toggle('active');
+        this.classList.toggle('deactive');
+
+        // Display toastr notifications based on the status
+        if (newStatus === 'Active') {
+            toastr.success('Status updated to Active', 'Status:');
+        } else {
+            toastr.error('Status updated to Deactive', 'Status:');
+        }
+
         // Manually submit the form
         this.closest('form').submit();
     });
 });
+// Configure toastr options
+
+document.addEventListener("DOMContentLoaded", function() {
+  toastr.options = {
+    positionClass: 'toast-top-right', // Set the position where the notifications appear
+    timeOut: 1000, // Set the timeout in milliseconds
+    progressBar: true, // Show a progress bar
+  };
+  
+});
+
 
 
 // Add event listener to toggle status for checkboxes
@@ -107,3 +128,13 @@ checkboxes.forEach(checkbox => {
     element.textContent = 'Activated';
   }
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  const categoryFilter = document.getElementById("categoryFilter");
+
+  categoryFilter.addEventListener("change", function() {
+      const selectedCategoryId = categoryFilter.value;
+
+      window.location.href = 'product.php?category_id=' + selectedCategoryId;
+  });
+});

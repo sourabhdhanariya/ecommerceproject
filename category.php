@@ -1,60 +1,6 @@
 
 <?php include 'header.php' ?>
 <?php include 'sidebar.php' ?>
-<style>
-    /* CSS for button colors based on status */
-    .active-button {
-        background: linear-gradient(to right, #3498db, #2980b9);
-        color: white;
-    }
-
-    .inactive-button {
-        background: linear-gradient(to right, #e74c3c, #c0392b);
-        color: white;
-    }
-
-    .status-toggle {
-        
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    font-size: 9px;
-    font-weight: bold;
-    text-decoration: none;
-    }
-    #category-image{
-        width: 15px;
-    }
-    #category-image:hover {
-  transform: scale(1.1); 
-  
-}
-
-    
-.ml-1 {
-  margin-left: 130px !important;
-}
-    .status-toggle:hover {
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    }
-    @media screen and (max-device-width: 480px) 
-    and (orientation: portrait) {
-      
-.ml-1 {
-  margin-left: 1px !important;
-} 
-}
-</style>
-
-<?php    
-
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit();
-}
-?>
-
 <div class="pcoded-content">
                         <div class="pcoded-inner-content">
                             <!-- Main-body start -->
@@ -63,18 +9,18 @@ if (!isset($_SESSION['email'])) {
 									<!-- Page-header start -->
                                     <div class="page-header card">
                                         <div class="card-block">
-                                            <h5 class="m-b-10">Category Table</h5>
-                                            <!-- <p class="text-muted m-b-10">lorem ipsum dolor sit amet, consectetur adipisicing elit</p> -->
+                                            <h5 class="m-b-10">Category Management</h5>
                                             <ul class="breadcrumb-title b-t-default p-t-10">
-                                                <li class="breadcrumb-item">
-                                                    <a href="index.html"> <i class="fa fa-home"></i> </a>
-                                                </li>
-                                               <li class="breadcrumb-item"><a href="#!">Dashboard</a>
-                                                        </li>
-                                                        <li class="breadcrumb-item"><a href="#!">Category table</a>
-                                                        </li>
-                                            </ul>
-                                        </div>
+              <li class="breadcrumb-item">
+                <a href="index.html"> <i class="fa fa-home"></i> </a>
+              </li>
+              <li class="breadcrumb-item"><a href="#!">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item "><a href="#!">Category Management </a>
+              </li>
+            </ul>
+                                                                                   </div>
+                                                                                   
                                     </div>
                                     <!-- Page-header end -->
                                     
@@ -83,18 +29,8 @@ if (!isset($_SESSION['email'])) {
                                     <!-- Basic table card start -->
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>Category</h5>
-                                            <span>     <a class="btn btn-primary btn-sm float-end  me-5" href="addcategory.php" role="button"> + Add </a>
+                                            <span>     <a class="btn btn-primary btn-sm float-end" href="addcategory.php" role="button"> + Add </a>
                                        </span>
-                                            <div class="card-header-right">
-												<ul class="list-unstyled card-option">
-													<li><i class="fa fa-chevron-left"></i></li>
-													<li><i class="fa fa-window-maximize full-card"></i></li>
-													<li><i class="fa fa-minus minimize-card"></i></li>
-													<li><i class="fa fa-refresh reload-card"></i></li>
-													<li><i class="fa fa-times close-card"></i></li>
-												</ul>
-											</div>
 
                                         </div>
                                         <div class="card-block table-border-style">
@@ -124,14 +60,14 @@ if (!isset($_SESSION['email'])) {
         $whereClause = "category_id = $categoryId";
         $updateResult = $obj->updateData("categories", $updateParams, $whereClause);
 
-        if ($updateResult) {
-            // echo "Update successful!";
+        if ($updateResult==1) {
+            // echo "<script>toastr.success('Form Active successfully', 'Success');</script>";
         } else {
             echo "Update failed. Error: " . implode(", ", $obj->getResult());
         }
     }
     // Fetch and display the updated data
-    $obj = new Database();
+    $obj = new Categories();
     $categories = $obj->getCategories();
     $counter = 1;
     if (!empty($categories)) {
@@ -153,10 +89,11 @@ if (!isset($_SESSION['email'])) {
     <form method="post">
         <input type="hidden" name="id" value="<?= $id ?>">
         <input type="hidden" name="active" value="<?= $statusLabel ?>">
-        <button type="button" class="status-toggle btn btn-link tablesize togglelineremove <?= $statusLabel ===
+        <button type="button" style="font-size:9px" class="status-toggle btn btn-link tablesize togglelineremove tooglesize <?= $statusLabel ===
         "Active" ? "active-button" : "inactive-button" ?>" data-categoryid="<?= $id ?>" data-status="<?= $statusLabel ?>"><?= $statusLabel ?></button>
     </form>
 </td>  
+
   <td>
         <div class="d-flex ms-5 ml-1">
         <button type="button" class="btn view-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" 
@@ -188,15 +125,7 @@ if (!isset($_SESSION['email'])) {
 
 
                         </tbody>
-                        <!-- <tfoot>
-                            <tr class="h-5">
-                                <th >Category</th>
-                                <th>Parent Category</th>
-                                <th>Status</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </tfoot> -->
-                    </table>                                            </div>
+                                        </table>                                            </div>
                                         </div>
                                     </div>
           
@@ -228,8 +157,7 @@ if (!isset($_SESSION['email'])) {
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary d-flex m-auto buttonsize" data-bs-dismiss="modal">ok</button>
     
-                <!-- <button type="button" class="btn btn-primary d-flex m-auto pe-5 ps-5">Ok</button>
-     -->
+           
               </div>
         </div>
     </div>

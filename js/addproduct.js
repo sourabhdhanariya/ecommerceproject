@@ -166,57 +166,69 @@ $("#media-container div.media-item").each(function () {
         }
       });
     });
-  })(jQuery);
-
-      jQuery(document).ready(function () {
-        jQuery('#datepicker').datepicker({
-          format: 'mm-dd-yy',
-          startDate: '+1d'
-        });
-      });
-      // validation 
-      $(document).ready(function() {
-        $.validator.addMethod("lessThanOrEqualToPrice", function(value, element) {
-            var productPrice = parseFloat($("#productPrice").val());
-            var productdiscount = parseFloat(value);
-            return productdiscount >= 0 && productdiscount <= productPrice;
-        }, "Discounted price must be less than or equal to the price.");
-    
-        $('#categoryForm').validate({
-            rules: {
-                productname: {
-                    required: true
-                },
-                productPrice: {
-                    required: true,
-                    number: true,
-                    min: 0
-                },
-                productdiscount: {
-                    required: true,
-                    number: true,
-                    min: 0,
-                    lessThanOrEqualToPrice: true
-                },
-            },
-            messages: {
-                productname: {
-                    required: "Name field can not be blank"
-                },
-                productPrice: {
-                    required: "Please enter the price.",
-                    number: "Please enter a valid number.",
-                    min: "Price cannot be negative.",
-                },
-                productdiscount: {
-                    required: "Please enter a valid discount price.",
-                    number: "Please enter a valid number.",
-                    min: "Discounted price cannot be negative.",
-                },
-            },
-            submitHandler: function(form) {
-                form.submit();
-            }
-        });
+  })
+  
+  (jQuery);
+  jQuery(document).ready(function () {
+    jQuery('#datepicker').datepicker({
+      dateFormat: 'mm-dd-yy',
+      minDate: 0
     });
-    
+  });
+      // validation 
+    //   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    //   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+      
+        
+
+$(document).ready(function() {
+    $.validator.addMethod("lessThanOrEqualToPrice", function(value, element) {
+        var productPrice = parseFloat($("#productPrice").val());
+        var productdiscount = parseFloat(value);
+        return productdiscount >= 0 && productdiscount <= productPrice;
+    }, "Discounted price must be less than or equal to the price");
+
+    $('#categoryForm').validate({
+        rules: {
+            productname: {
+                required: true
+            },
+            productPrice: {
+                required: true,
+                number: true,
+                min: 0
+            },
+            productdiscount: {
+                required: true,
+                number: true,
+                min: 0,
+                lessThanOrEqualToPrice: true
+            },    
+            qty: {
+                required: true
+            }
+        },
+        
+        messages: {
+            productname: {
+                required: "Name field cannot be blank"
+            },
+            productPrice: {
+                required: "Please enter the price.",
+                number: "Please enter a valid number.",
+                min: "Price cannot be negative."
+            },
+            productdiscount: {
+                required: "Please enter a valid discount price.",
+                number: "Please enter a valid number.",
+                min: "Discounted price cannot be negative."
+            },
+            qty:{
+                required: "Price field cannot be blank"
+            }
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+});

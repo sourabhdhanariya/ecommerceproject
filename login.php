@@ -1,6 +1,7 @@
 <?php
-include 'function.php';
-session_start(); 
+include 'database.php';
+session_start();
+
 $email = '';
 $password = '';
 $emailError = '';
@@ -9,11 +10,10 @@ $passwordError = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $database = new Database();
-    $database->handleLogin($email, $password);
+    $database = new adminLogin();
+    $database->loginData($email, $password); // Call the loginData method
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -80,24 +80,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
                                 <hr/>
-
-
-
                                 <div class="form-group row p-l-10 p-r-10">
     <label for="usernameemail">Email address</label>
     <input type="text" name="email" id="email" class="form-control" aria-describedby="emailHelp" placeholder="Your Email Address">
     <div class="text-danger size float-left emailNotificationMessage"><?php echo $emailError; ?></div>
-
 </div>
 
 <div class="form-group row p-l-10 p-r-10">
     <label for="password">Password</label>
     <input type="password" class="form-control" name="password" id="password" placeholder="Password">
     <div class="text-danger size float-left passwordNotificationMessage"><?php echo $passwordError; ?></div>
-  
 </div>
-
-                  
 
                                 <div class="row m-t-25 text-left">
                                     <div class="col-sm-7 col-xs-12">
@@ -133,108 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <!-- end of container-fluid -->
     </section>
-    
-    <script>
-        
-$(document).ready(function() {
-        $('#first_form').validate({
-            rules: {
-                email: {
-                    required: true,
-                    checkEmail: true
-                },
-                password: {
-                    required: true,
-                    minlength: 8,
-                    checkPassword: true
-                },
-            },
-            messages: {
-                usernameemail: {
-                    required: 'Please enter an email address',
-                
-                },
-                password: {
-                    required: 'Please enter a password',
-                    minlength: 'Password must be at least 8 characters long',
-                    checkPassword: 'Password must contain at least one special character and one uppercase letter'
-                },
-            },
-        });
-
-  // Custom validation method to check password
-  $.validator.addMethod('checkEmail', function(value) {
-            
-
-            // Check for at least one special character
-            var Email = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
-            if (!Email.test(value)) {
-                return false;
-            }
-
-          
-            return true;
-        }, 'Please valid emailadresss');
-        
-       
-
-        // Custom validation method to check password
-        $.validator.addMethod('checkPassword', function(value) {
-            // Minimum length check
-            if (value.length < 8) {
-                return false;
-            }
-
-            // Check for at least one special character
-            var specialCharacter = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/;
-            if (!specialCharacter.test(value)) {
-                return false;
-            }
-
-            // Check for at least one uppercase letter
-            var uppercaseCharacter = /[A-Z]/;
-            if (!uppercaseCharacter.test(value)) {
-                return false;
-            }
-
-            return true;
-        }, 'Password must contain at least one special character and one uppercase letter');
-        
-    });
-    
-    </script>
-   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var emailInput = document.getElementById("email");
-        var passwordInput = document.getElementById("password");
-
-        var emailNotificationMessage = document.querySelector(".emailNotificationMessage");
-        var passwordNotificationMessage = document.querySelector(".passwordNotificationMessage");
-
-        emailInput.addEventListener("input", function() {
-            if (emailInput.value.length === 0) {
-                emailNotificationMessage.innerHTML = "Invalid Credentials";
-                setTimeout(function() {
-                    emailNotificationMessage.innerHTML = "";
-                }, 1000); // 2 seconds delay
-            } else {
-                emailNotificationMessage.innerHTML = "";
-            }
-        });
-
-        passwordInput.addEventListener("input", function() {
-            if (passwordInput.value.length === 0) {
-                passwordNotificationMessage.innerHTML = "Invalid Credentials";
-                setTimeout(function() {
-                    passwordNotificationMessage.innerHTML = "";
-                }, 1000); // 2 seconds delay
-            } else {
-                passwordNotificationMessage.innerHTML = "";
-            }
-        });
-    });
-</script>
-
+<script src="./js/login.js"></script>
 </body>
-
 </html>
