@@ -2,6 +2,7 @@
 <?php 
 include 'header.php';
 include 'sidebar.php'; 
+include 'Classes/CustomerClass.php';
 ?>
 <div class="pcoded-content">
                         <div class="pcoded-inner-content">
@@ -57,25 +58,16 @@ include 'sidebar.php';
                         </thead>
                         <tbody>
                         <?php
-$obj = new Database();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoryId = isset($_POST['id']) ? $_POST['id'] : 0;
-    $newStatus = isset($_POST['active']) ? ($_POST['active'] == 'Active' ? 1 : 0) : 0;
 
-    $updateParams = array('status' => $newStatus);
-    $whereClause = "customer_id = $categoryId";
-    $updateResult = $obj->updateData('customer', $updateParams, $whereClause);
 
-    if ($updateResult) {
-        echo "Update successful!";
-    } else {
-        echo "Update failed. Error: " . implode(', ', $obj->getResult());
-    }
-}
 
-$sql = $obj->selectData(
- 'customer'
-);
+
+$obj = new CustomerClass();
+
+$obj->updateCustomerStatus();
+
+$sql = $obj->getCustomer();
+     
 if (is_string($sql)) {
     $obj->sqlData($sql);
     $results = $obj->getResult();
@@ -101,7 +93,7 @@ if (!empty($results)) {
     <td><?= $counter ?></td>
     <td>
         <button type="button" class="btn btn-link btn-sm view-btn" data-toggle="modal"
-                data-category-id="<?= $id ?>" data-category-name="<?= $name ?>"
+                data-customer-id="<?= $id ?>" data-category-name="<?= $name ?>"
                 data-customer-email="<?= $customer_email ?>"
                 data-customer-mobile="<?= $customer_mobile ?>"
                 data-customer-billing="<?= $customer_billing ?>"
@@ -178,9 +170,7 @@ $counter++;
                 <h6 class="tablesize fw-bold ">Phone: <spanc class=" float-end fw-normal" id="category_mobile"> 9876543456</span></h6>
                 <h6 class="tablesize fw-bold ">Billing Address: <spanc class=" float-end fw-normal" id="customer_billing"> 3076 Spring Avenue Norristown Pa 194403</span></h6>
                 <h6 class="tablesize fw-bold ">Shipping Address: <spanc class="float-end fw-normal" id="customer_shiping"> 1830 Clarence Count Santa Fe Spring, CA 90670</span></h6>
-              
-                <p class="invisible">Category ID: <span id="category-id-placeholder"></span></p>
-
+                <p class="invisible">Category ID: <span id="customerIdPlaceholder"></span></p>
               </div>
       
 
@@ -193,5 +183,5 @@ $counter++;
                                         </div>
                                     </div>
                                     
-<script src="./js/product.js"></script>
+<script src="./js/customer.js"></script>
 <?php include 'footer.php' ?>

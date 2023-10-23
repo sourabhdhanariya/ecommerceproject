@@ -2,18 +2,11 @@
 <?php 
 include 'header.php';
 include 'sidebar.php'; 
+include 'Classes/ProductClass.php';
+include 'Classes/CategoriClass.php';
 
-$obj = new Database();
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-
-    $deleteResult = $obj->deleteData('products', "product_id = $id");
-    if ($deleteResult) {
-        echo "Delete successful!";
-    } else {
-        echo "Delete failed. Error: " . implode(', ', $obj->getResult());
-    }
-}
+$obj = new ProductClass();
+$obj->deleteProduct();
 ?>
 <div class="pcoded-content">
                         <div class="pcoded-inner-content">
@@ -58,9 +51,12 @@ if (isset($_GET['category_id'])) {
     <select id="categoryFilter" class="form-select tablesize">
         <option value="0" <?php echo ($categoryIdFilter === '0') ? 'selected' : ''; ?>>All Categories</option>
         <?php
-        $obj->sqlData('SELECT category_id, category_name FROM categories;');
         
-        $categories = $obj->getResult();
+        $obj = new CategoriClass();
+
+        
+
+        $categories = $obj->categoryFilter();
 
         if (!empty($categories)) {
             foreach ($categories as $cat) {
@@ -104,55 +100,34 @@ if (isset($_GET['category_id'])) {
                         </thead>
                         <tbody>
                         <?php
+//active and deactive 
 
-$obj = new Database();
+$obj = new ProductClass();
+$obj->updateProductStatus();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoryId = isset($_POST['id']) ? $_POST['id'] : 0;
-    $newStatus = isset($_POST['active']) ? ($_POST['active'] == 'Active' ? 1 : 0) : 0;
 
-    $updateParams = array('status' => $newStatus);
-    $whereClause = "product_id  = $categoryId";
-    $updateResult = $obj->updateData('products', $updateParams, $whereClause);
-
-    if ($updateResult) {
-        // echo "Update successful!";
-    } else {
-        echo "Update failed. Error: " . implode(', ', $obj->getResult());
-    }
-}
-
-// category filter
 $categoryIdFilter = isset($_GET['category_id']) ? $_GET['category_id'] : '0';
-$obj = new Database();  // Replace with the appropriate SQL class you are using
+$obj = new ProductClass();  // Replace with the appropriate SQL class you are using
 
-$sql = $obj->selectData(
-    'products p',
-    'p.product_id, p.product_title, p.product_quantity, p.product_price, p.status, c.category_id, c.category_name',
-    'INNER JOIN categories c ON p.category_id = c.category_id',  // Corrected JOIN clause
-    $categoryIdFilter !== '0' ? "p.category_id = $categoryIdFilter" : null  // Optional WHERE clause
-);
-if (is_string($sql)) {
-    $obj->sqlData($sql);
-    $results = $obj->getResult();
-    $counter = 1;
+$sqlResult = $obj->getProductCategoriesFilter($categoryIdFilter);
+
+
+if (is_string($sqlResult)) {
+    echo "Invalid SQL query: $sqlResult"; // Handle the error
 } else {
-    echo "Invalid SQL query: $sql";
-}
+    $results = $sqlResult;
+    $counter = 1;
 
-if (!empty($results)) {
-    foreach ($results as $row) {
-        $name = $row['product_title'];
-        $product_quantity = $row['product_quantity'];
-        $product_price = $row['product_price'];
-     
-        
-        $id = $row['product_id'];
-        $category_id = $row['category_id'];
-        $category_name = $row['category_name'];
-        
-        $status = $row['status'];
-        $statusLabel = ($status == 1) ? 'Active' : 'Deactive';
+    if (!empty($results)) {
+        foreach ($results as $row) {
+            $name = $row['product_title'];
+            $product_quantity = $row['product_quantity'];
+            $product_price = $row['product_price'];
+            $id = $row['product_id'];
+            $category_id = $row['category_id'];
+            $category_name = $row['category_name'];
+            $status = $row['status'];
+            $statusLabel = ($status == 1) ? 'Active' : 'Deactive';
 ?>
 
 <tr>
@@ -195,14 +170,18 @@ if (!empty($results)) {
 
 <?php
 $counter++;  
-    }
+}
 } else {
+
+
 ?>
 <tr>
     <td colspan="4">No data found.</td>
 </tr>
 <?php
 }
+}
+
 ?>
  </tbody>
       

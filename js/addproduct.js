@@ -175,11 +175,7 @@ $("#media-container div.media-item").each(function () {
       minDate: 0
     });
   });
-      // validation 
-    //   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    //   <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
       
-        
 
 $(document).ready(function() {
     $.validator.addMethod("lessThanOrEqualToPrice", function(value, element) {
@@ -188,6 +184,11 @@ $(document).ready(function() {
         return productdiscount >= 0 && productdiscount <= productPrice;
     }, "Discounted price must be less than or equal to the price");
 
+    
+    $.validator.addMethod("ckeditorNotEmpty", function() {
+        return CKEDITOR.instances.editor.getData().trim() !== '';
+      }, "Please enter some text in the editor.");
+       
     $('#categoryForm').validate({
         rules: {
             productname: {
@@ -204,10 +205,19 @@ $(document).ready(function() {
                 min: 0,
                 lessThanOrEqualToPrice: true
             },    
-            qty: {
-                required: true
-            }
+            qtyProduct: {
+                required: true,
+                number: true,
+                min: 0
+            },
+            skuProduct:{
+                required:true
+            },
+            productDes: {
+                required: true,
+                ckeditorNotEmpty: true,     }
         },
+        
         
         messages: {
             productname: {
@@ -223,9 +233,19 @@ $(document).ready(function() {
                 number: "Please enter a valid number.",
                 min: "Discounted price cannot be negative."
             },
-            qty:{
-                required: "Price field cannot be blank"
-            }
+            qtyProduct:{
+                required: "Quantity field cannot be blank."
+            },
+            skuProduct:{
+                required: "Sku field cannot be blank."
+            },
+            productDes:{
+                required:"please enter des",
+                number: "Please enter a valid number.",
+            },
+
+            
+            
         },
         submitHandler: function(form) {
             form.submit();

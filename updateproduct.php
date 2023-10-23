@@ -1,88 +1,62 @@
+<?php
+include 'header.php';
+include 'sidebar.php';
+include 'Classes/CategoriClass.php';
+include 'Classes/ProductClass.php';
+$obj = new Database();
+ 
+$successMessage = '';
+$errorMessage = '';
 
-<?php include 'header.php';
- include 'sidebar.php';
- $obj = new Database();
- 
- $successMessage = '';
- $errorMessage = '';
- 
 
- if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-     $product_title = $_POST['product_title'];
-     $product_description = $_POST['productDes'];
-     $product_price = $_POST['productPrice'];
-     $product_discount = $_POST['product_discount'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $product_title = $_POST['product_title'];
+    $categoriObj = new ProductClass();
+
+    $product_description = $_POST['productDes'];
+    $product_price = $_POST['productPrice'];
+    $product_discount = $_POST['product_discount'];
+
+    if ($product_price <= $product_discount) {
+        echo "Price cannot be greater than the discount.";
+        
+    } else {
+        $product_quantity = $_POST['prod_quantity'];
+        $skuProduct = $_POST['skuProduct'];
+        $category = $_POST['category'];
+        $subcategory_id = $_POST['subcategoryid'];
+        $productLaunchFormatted = date('Y-m-d', strtotime($_POST['launch']));
+        $status = isset($_POST["status"]) && $_POST["status"] == "on" ? 1 : 0;
+       
+        $categoriObj = new ProductClass();
+        $response =   $categoriObj->updateProduct($product_title, $product_description, $product_price, $product_discount, $product_quantity, $category, $subcategory_id, $skuProduct, $productLaunchFormatted, $status);
+    
+}}
+
+?>
  
-     if ($product_price <= $product_discount) {
-         echo "Price cannot be greater than the discount.";
-         
-     } else {
-         $product_quantity = $_POST['prod_quantity'];
-         $skuProduct = $_POST['skuProduct'];
-         $category = $_POST['category'];
-         $subcategory_id = $_POST['subcategoryid'];
-         $productLaunchFormatted = date('Y-m-d', strtotime($_POST['launch']));
-         $status = isset($_POST["status"]) && $_POST["status"] == "on" ? 1 : 0;
-         $id = isset($_POST['id']) ? $_POST['id'] : '';
-         $uploadedFiles = array(); 
- 
-         if (isset($_FILES['imageFile']) && is_array($_FILES['imageFile']['name'])) {
-             $uploadDir = 'images/';
- 
-             for ($i = 0; $i < count($_FILES['imageFile']['name']); $i++) {
-                 $uploadFile = $uploadDir . basename($_FILES['imageFile']['name'][$i]);
- 
-                 if (move_uploaded_file($_FILES['imageFile']['tmp_name'][$i], $uploadFile)) {
-                     $uploadedFiles[] = $_FILES['imageFile']['name'][$i];
-                 } else {
-                     echo "Failed to upload one or more images.";
-                 }
-             }
-         }
- 
-         $updateParams = array(
-             'product_title' => $product_title,
-             'product_description' => $product_description,
-             'product_price' => $product_price,
-             'product_discount' => $product_discount,
-             'product_quantity' => $product_quantity,
-             'category_id' => $category,
-             'subcategory_id' => $subcategory_id,
-             'sku' => $skuProduct,
-             'launch_date' => $productLaunchFormatted,
-             'status' => $status,
-         );
- 
-         if (!empty($uploadedFiles)) {
-             $updateParams['product_image'] = $uploadedFiles[0];
-         }
- 
-         $whereClause = "product_id = $id";
-         $updateResult = $obj->updateData('products', $updateParams, $whereClause);
-         $obj->deleteData('media_master', "product_id = $id");
- 
-         if ($updateResult) {
-             for ($i = 1; $i < count($uploadedFiles); $i++) {
-                 $mediaUpdateParams = array(
-                     'product_id' => $id,  
-                     'image_path' => 'images/' . $uploadedFiles[$i],
-                 );
-                 $mediaWhereClause = "product_id = $id";
- 
-                 $obj->insertMutipleData('media_master', $mediaUpdateParams, $mediaWhereClause);
-             }
-             $updatedProduct = $obj->sqlData("SELECT * FROM products WHERE product_id = $id");
-         } else {
-             echo "Failed to update product. Error: " . implode(', ', $obj->getResult());
-         }
-     }
- }
+<?php if (!empty($response) && $response["success"] === true) : ?>
+  <script>
+    toastr.success('<?php echo $response["msg"]; ?>', 'Success');
+  </script>
+<?php elseif (!empty($response)) : ?>
+  <script>
+    toastr.error('<?php echo $response["msg"]; ?>', 'Error');
+  </script>
+<?php endif; ?>
+
+<?php
+
+
  
 // Performed select query  
 $id = isset($_GET['updateid']) ? $_GET['updateid'] : '';
-$obj = new Database();
-$obj->sqlData("SELECT * FROM products WHERE product_id = '$id'");
-$results = $obj->getResult();
+
+
+$obj = new ProductClass();
+ 
+if (!empty($id)) {
+    $results = $obj->selectProduct($id);
 
 if (!empty($results)) {
     $product_title = $results[0]['product_title'];
@@ -123,7 +97,7 @@ if (!empty($results)) {
     $product_images = array();
 
 }
-
+}
 ?>
 
 
@@ -200,7 +174,7 @@ if (!empty($results)) {
   <select id="categoryId"  name="category" class="form-select">
     <?php 
 
-    $obj = new Categories();
+    $obj = new CategoriClass();
     
     $categories = $obj->getCategories();
        
@@ -226,7 +200,7 @@ if (!empty($results)) {
   <select id="subCategoryId" name="subcategoryid" class="form-select">
     <?php 
     
-    $obj = new ProductCategories();
+    $obj = new ProductClass();
 
     $results = $obj->getProductCategories();
     
@@ -319,7 +293,7 @@ if (!empty($results)) {
     <input type="file" name="imageFile[]" id="media-upload" class="form-control form-control-sm" accept="image/*" multiple >
 </div>
 <div class="col-md-2">
-    <img src="images/<?php echo htmlspecialchars($product_image); ?>" style="width:100px" name="imageproducts" width="100px" height="100px" class="container-fluid d-flex flex-nowrap overflow-auto" alt="s">
+    <img src="images/product/<?php echo htmlspecialchars($product_image); ?>" style="width:100px" name="imageproducts" width="100px" height="100px" class="container-fluid d-flex flex-nowrap overflow-auto" alt="s">
     <div  class="container-fluid d-flex flex-nowrap overflow-auto"></div>
     <div>
  

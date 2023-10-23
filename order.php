@@ -2,6 +2,9 @@
 <?php 
 include 'header.php';
 include 'sidebar.php'; 
+include 'Classes/OrderClass.php'; 
+
+
 ?>
   <style>
     .custom-select {
@@ -102,31 +105,21 @@ include 'sidebar.php';
 
                         <?php
                         
-                        $obj = new Database();
                         
-                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                            $id = isset($_POST['id']) ? $_POST['id'] : 0;
-                            $newStatus = isset($_POST['status']) ? $_POST['status'] : 0;
-                        
-                            $allowedStatusValues = [0, 1, 2];
-                            if (!in_array($newStatus, $allowedStatusValues)) {
-                                echo "Invalid status value!";
-                                exit; 
-                            }
-                        
-                            $updateParams = array('status' => $newStatus);
-                            $whereClause = "id  = $id";
-                            $updateResult = $obj->updateData('customer_order', $updateParams, $whereClause);
-                        
-                            if ($updateResult) {
-                            } else {
-                                echo "Update failed. Error: " . implode(', ', $obj->getResult());
-                            }
-                        }
-                        $obj = new Database();
+$obj = new OrderClass();
+
+$obj->updateStatusOrder();
+
+
+
+                        // $obj = new Database();
 
                         $selectedFilter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
-
+        
+                        $obj = new OrderClass();
+                    
+                        $sql = $obj->selectorder();
+    
                         $sql = "SELECT * FROM `customer_order` WHERE 1 ";
                         
                         if ($selectedFilter === 'completed') {
@@ -142,6 +135,7 @@ include 'sidebar.php';
                         if ($selectedTime !== 'all') {
                             $sql .= " AND order_date BETWEEN ...";  
                         }
+                        
                         
                         $obj = new Database();  
                         $obj->sqlData($sql);

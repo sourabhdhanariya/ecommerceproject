@@ -1,6 +1,6 @@
 document.querySelectorAll('.view-btn').forEach(button => {
     button.addEventListener('click', event => {
-        const categoryId = button.getAttribute('data-category-id');
+        const customerId = button.getAttribute('data-customer-id');
         const categoryName = button.getAttribute('data-category-name');
         const customeremail = button.getAttribute('data-customer-email');
         const customermobile = button.getAttribute('data-customer-mobile');
@@ -8,9 +8,9 @@ document.querySelectorAll('.view-btn').forEach(button => {
         const categoryshiping = button.getAttribute('data-customer-shipping');
 
         // Set the Category ID and make it visible
-        const categoryIdPlaceholder = document.getElementById('category-id-placeholder');
-        categoryIdPlaceholder.textContent = categoryId;
-        categoryIdPlaceholder.style.display = 'inline'; // Make it visible
+        const customerIdPlaceholder = document.getElementById('customerIdPlaceholder');
+        customerIdPlaceholder.textContent = customerId;
+        customerIdPlaceholder.style.display = 'inline'; // Make it visible
 
         document.getElementById('categoryname').textContent = categoryName;
         document.getElementById('customer_email').textContent = customeremail;

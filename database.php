@@ -102,35 +102,44 @@ class Database
             return false;
         }
     }
-    //selectdata
-    public function selectData(
-        $table,
-        $columns = "*",
-        $join = null,
-        $where = null,
-        $order = null,
-        $limit = null
-    ) {
-        $sql = "SELECT $columns FROM $table";
+    
+    // selectdata
+public function selectData(
+    $table,
+    $columns = "*",
+    $join = null,
+    $where = null,
+    $order = null,
+    $limit = null
+) {
+    $sql = "SELECT $columns FROM $table";
 
-        if ($join != null) {
-            $sql .= " $join";
-        }
-
-        if ($where != null) {
-            $sql .= " WHERE $where";
-        }
-
-        if ($order != null) {
-            $sql .= " ORDER BY $order";
-        }
-
-        if ($limit != null) {
-            $sql .= " LIMIT $limit";
-        }
-
-        return $sql;
+    if ($join !== null) {
+        $sql .= " $join";
     }
+
+    if ($where !== null) {
+        $sql .= " WHERE $where";
+    }
+
+    if ($order !== null) {
+        $sql .= " ORDER BY $order";
+    }
+
+    if ($limit !== null) {
+        $sql .= " LIMIT $limit";
+    }
+
+    // Execute the query
+    $result = $this->mysqli->query($sql);
+
+    if (!$result) {
+        return "Query failed: " . $this->mysqli->error;
+    }
+
+    // Fetch and return the results as an associative array
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
 
     //sql data
     public function sqlData($sql)
@@ -181,6 +190,7 @@ class Database
         }
     }
     
+  
     public function getProduct()
     {
         $query = 'SELECT p.product_id, p.product_title, p.product_quantity, p.product_price, p.status, c.category_id, c.category_name
@@ -212,80 +222,3 @@ class Database
     }
 
 }
-
-class adminLogin extends Database
-{
-    public function loginData($email, $password)
-    {
-        $iv = "1234567890123456";
-        $encryptionKey = "sourabhdhanariya12354566ddjdjdj";
-        $encryptedPassword = openssl_encrypt(
-            $password,
-            "aes-256-cbc",
-            $encryptionKey,
-            0,
-            $iv
-        );
-
-        $query = "SELECT * FROM tb_user WHERE email='" . $email . "' AND password='" . $encryptedPassword . "'";
-        $result = $this->mysqli->query($query);
-
-        if ($result) {
-            if ($result->num_rows == 1) {
-                session_start();
-                $_SESSION["email"] = $email;
-                header("Location: dashboard.php");
-                exit();
-            } else {
-                $emailError = "Invalid Credentials";
-                $passwordError = "Invalid Credentials";
-            }
-        } else {
-            echo "Query execution failed.";
-        }
-    }
-
-}
-
-class Categories extends Database
-{
-    public function getCategories()
-    {
-        $query = 'SELECT c1.category_id, c1.category_name, c1.parent_category_id,c1.category_description,
-        c1.category_image_path, c1.status,
-        c2.category_name AS parent_category_name
-        FROM categories c1
-        LEFT JOIN categories c2 ON c1.parent_category_id = c2.category_id;';
-
-        $result = $this->mysqli->query($query);
-
-        if (!$result) {
-            die("Query failed: " . $this->mysqli->error);
-        }
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-   
-}
-class ProductCategories extends Database
-{
-  
-    public function getProductCategories()
-    {
-        $query = 'SELECT c1.category_id, c1.category_name, c1.parent_category_id,
-        c1.category_description, c1.category_image_path, c1.status,
-        c2.category_name AS parent_category_name
-        FROM categories c1
-        INNER JOIN categories c2 ON c1.parent_category_id = c2.category_id';
-
-        $result = $this->mysqli->query($query);
-
-        if (!$result) {
-            die("Query failed: " . $this->mysqli->error);
-        }
-
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
- 
-}
-

@@ -1,9 +1,51 @@
 
 <?php include 'header.php';
 include 'sidebar.php';
+include 'Classes/CustomerClass.php';
+
+$successMessage = '';
+$errorMessage = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $categoriObj = new CustomerClass();
+    $customername = $_POST['customername'];
+    $mobile_Name = $_POST['mobile_name'];
+    $email = $_POST['email_address'];
+  
+    $billingAdd1 = $_POST['biladdress1'];
+    $billingAdd2 = $_POST['biladdress2'];
+    $billingCity = $_POST['bilcity'];
+    $billingState = $_POST['bilstate'];
+    $billingCountry = $_POST['billcountry'];
+    $billingZip = $_POST['billzip'];
+  
+    $shippingAdd1 = $_POST['shipaddress1'];
+    $shippingAdd2 = $_POST['shipaddress2'];
+    $shippingCity = $_POST['shipcity'];
+    $shippingState = $_POST['shipstate'];
+    $shippingCountry = $_POST['shipcountry'];
+    $shippingZip = $_POST['shipzip'];
+      $response = $categoriObj->updateCustomer($customername, $mobile_Name,$email, $billingAdd1, $billingAdd2,
+    $billingCity,$billingState, $billingCountry,$billingZip,$shippingAdd1, $shippingAdd2, $shippingState, $shippingCountry,$shippingCity, $shippingZip,
+     ); 
+}
 
 ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<?php if (!empty($response) && $response["success"] === true) : ?>
+    <script>
+        toastr.success('<?php echo $response["msg"]; ?>', 'Success');
+    </script>
+<?php elseif (!empty($response)) : ?>
+    <script>
+        toastr.error('<?php echo $response["msg"]; ?>', 'Error');
+    </script>
+<?php endif; ?>
+
+
+?>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- Include toastr.css for styling -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
@@ -48,83 +90,71 @@ include 'sidebar.php';
           <div class="card">
             <div class="">
 
-              <?php
-              
-$obj = new Database();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            <?php
+// $obj = new Database();
 
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//   $customername = $_POST['customername'];
+//   $mobile_Name = $_POST['mobile_name'];
+//   $email = $_POST['email_address'];
 
-  $customername = $_POST['customername'];
-  $mobile_Name = $_POST['mobile_name'];
-  $email = $_POST['email_address'];
-  // Billing Address
-  $billingAdd1 = $_POST['biladdress1'];
-  $billingAdd2 = $_POST['biladdress2'];
-  $billingCity = $_POST['bilcity'];
-  $billingState = $_POST['bilstate'];
-  $billingCity = $_POST['billcountry'];
-  $billingZip = $_POST['billzip'];
-  // Shipping Address 
-  $shippingAdd1 = $_POST['shipaddress1'];
-  $shippingAdd2 = $_POST['shipaddress2'];
-  $shippingCity = $_POST['shipcity'];
-  $shippingState = $_POST['shipstate'];
-  $shippingCountry = $_POST['shipcountry'];
-  $shippingZip = $_POST['shipzip'];
+//   $billingAdd1 = $_POST['biladdress1'];
+//   $billingAdd2 = $_POST['biladdress2'];
+//   $billingCity = $_POST['bilcity'];
+//   $billingState = $_POST['bilstate'];
+//   $billingCountry = $_POST['billcountry'];
+//   $billingZip = $_POST['billzip'];
 
-  $id = isset($_POST['id']) ? $_POST['id'] : '';
-  $uploadedFile = '';  // Initialize uploadedFile
-  $updateParams = array(
-    'customer_name' => $customername,
-    'customer_mobile' => $mobile_Name,
-    'customer_email' => $email,
-    'customerbilling_address1' => $billingAdd1,
-    'customerbilling_address2' => $billingAdd2,
-    'customerbilling_city' => $billingCity,
-    'customerbilling_state' => $billingState,
-    'customerbilling_country' => $billingCity,
-    'shipping_address1' => $shippingAdd1,
-    'shipping_address2' => $shippingAdd2,
-    'shipping_city' => $shippingCity,
-    'shipping_state' => $shippingState,
-    'shipping_country' => $shippingCountry,
-    'shipping_zip' => $shippingZip
+//   $shippingAdd1 = $_POST['shipaddress1'];
+//   $shippingAdd2 = $_POST['shipaddress2'];
+//   $shippingCity = $_POST['shipcity'];
+//   $shippingState = $_POST['shipstate'];
+//   $shippingCountry = $_POST['shipcountry'];
+//   $shippingZip = $_POST['shipzip'];
 
-  );
+//   $id = isset($_POST['id']) ? $_POST['id'] : '';
+//   $updateParams = array(
+//     'customer_name' => $customername,
+//     'customer_mobile' => $mobile_Name,
+//     'customer_email' => $email,
+//     'customerbilling_address1' => $billingAdd1,
+//     'customerbilling_address2' => $billingAdd2,
+//     'customerbilling_city' => $billingCity,
+//     'customerbilling_state' => $billingState,
+//     'customerbilling_country' => $billingCountry,
+//     'shipping_address1' => $shippingAdd1,
+//     'shipping_address2' => $shippingAdd2,
+//     'shipping_city' => $shippingCity,
+//     'shipping_state' => $shippingState,
+//     'shipping_country' => $shippingCountry,
+//     'shipping_zip' => $shippingZip
+//   );
 
-  if (!empty($uploadedFile)) {
-    // Only update the image path if a new image was uploaded
-    $updateParams['category_image_path'] = $uploadedFile;
-  }
+//   $whereClause = "customer_id = $id";
+//   $updateResult = $obj->updateData('customer', $updateParams, $whereClause);
 
-  $whereClause = "customer_id  = $id"; // Assuming $id contains the category ID
-  $updateResult = $obj->updateData('customer', $updateParams, $whereClause);
+//   if ($updateResult) {
+//     $updatedCategory = $obj->sqlData("SELECT * FROM customer WHERE customer_id = $id");
+//     $selectedCategoryID = isset($updatedCategory[0]['customer_id']) ? $updatedCategory[0]['customer_id'] : '';
 
-  if ($updateResult) {
-    // Fetch the updated category information
-    $updatedCategory = $obj->sqlData("SELECT * FROM customer WHERE customer_id = $id");
-    $selectedCategoryID = isset($updatedCategory[0]['customer_id']) ? $updatedCategory[0]['category_id'] : '';
-    //  $categoryImagePath = isset($updatedCategory[0]['category_image_path']) ? $updatedCategory[0]['category_image_path'] : '';
+//     echo "<script>
+//     toastr.success('Form Updated successfully', 'Success');
+//     toastr.options = {
+//       positionClass: 'toast-top-right', 
+//       progressBar: true, 
+//     };
+//     </script>";
+//   } else {
+//     echo "Failed to update category. Error: " . implode(', ', $obj->getResult());
+//   }
+// }
+?>
 
-    echo "<script>
-    toastr.success('Form Updated successfully', 'Success');
-    toastr.options = {
-      positionClass: 'toast-top-right', 
-      progressBar: true, 
-  };
-
-</script>";
-  
-} else {
-    echo "Failed to update category. Error: " . implode(', ', $obj->getResult());
-  }
-}
+<?php
               $id = isset($_GET['updatecustomerid']) ? $_GET['updatecustomerid'] : '';
-
-              $obj = new Database();
-              $obj->sqlData("SELECT * FROM customer WHERE customer_id = '$id'");
-              $results = $obj->getResult();
+              $obj = new CustomerClass();
+              $results = $obj->customerById($id);
 
               if (!empty($results)) {
                 $customer_name = $results[0]['customer_name'];

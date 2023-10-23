@@ -1,5 +1,22 @@
 
 
+// $(document).ready(function() {
+//   $('#categoryUpdateForm').validate({
+//       rules: {
+//         categoryName: {
+//               required: true
+//           }
+//       },
+//       messages: {
+//         categoryName: {
+//               required: "Name field can not be blank"
+//           }
+//       },
+//       submitHandler: function(form) {
+//           form.submit();
+//       }
+//   });
+// });
 CKEDITOR.replace('editor', {
 skin: 'moono',
 enterMode: CKEDITOR.ENTER_BR,
@@ -28,3 +45,4 @@ function readURL(input) {
 $("#img-upload").change(function () {
   readURL(this);
 });
+ 
