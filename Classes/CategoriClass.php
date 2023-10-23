@@ -137,17 +137,6 @@ class CategoriClass extends Database
          return $this->selectData($table, $columns);
      }
      
-    //  public function getCategories()
-    //  {
-    //      $query = 'SELECT c1.category_id,c1.category_name, c1.parent_category_id,c1.category_description,c1.category_image_path,c1.status,
-    //      (SELECT c2.category_name FROM categories c2 WHERE c2.category_id = c1.parent_category_id) AS parent_category_name FROM categories c1;';
-    //      $result = $this->mysqli->query($query);
-    //      if (!$result) {
-    //          return("Query failed: " . $this->mysqli->error);
-    //      }
-    //      return $result->fetch_all(MYSQLI_ASSOC);
-    //  }
-     
     public function updateCategoryStatus()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
