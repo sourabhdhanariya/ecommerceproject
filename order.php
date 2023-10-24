@@ -2,7 +2,7 @@
 <?php 
 include 'header.php';
 include 'sidebar.php'; 
-include 'Classes/OrderClass.php'; 
+include 'Classes/Order.php'; 
 
 
 ?>

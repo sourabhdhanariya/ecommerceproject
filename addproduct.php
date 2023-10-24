@@ -1,8 +1,8 @@
 <?php
 include 'header.php';
 include 'sidebar.php';
-include 'Classes/CategoriClass.php';
-include 'Classes/ProductClass.php';
+include 'Classes/Categori.php';
+include 'Classes/Product.php';
 
 $successMessage = '';
 $errorMessage = '';

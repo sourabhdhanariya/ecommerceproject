@@ -2,7 +2,7 @@
 <?php 
 include 'header.php';
 include 'sidebar.php'; 
-include 'Classes/CustomerClass.php';
+include 'Classes/Customer.php';
 ?>
 <div class="pcoded-content">
                         <div class="pcoded-inner-content">

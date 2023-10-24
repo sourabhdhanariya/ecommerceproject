@@ -1,7 +1,7 @@
 <?php include 'header.php';
 include 'sidebar.php';
 
-include 'Classes/CategoriClass.php';
+include 'Classes/Categori.php';
 ?>
 <div class="pcoded-content">
     <div class="pcoded-inner-content">

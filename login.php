@@ -1,6 +1,6 @@
 <?php
 include 'database.php';
-include 'Classes/LoginClass.php';
+include 'Classes/Login.php';
 session_start();
 
 $email = '';

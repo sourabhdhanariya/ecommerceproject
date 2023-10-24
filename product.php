@@ -2,8 +2,8 @@
 <?php 
 include 'header.php';
 include 'sidebar.php'; 
-include 'Classes/ProductClass.php';
-include 'Classes/CategoriClass.php';
+include 'Classes/Product.php';
+include 'Classes/Categori.php';
 
 $obj = new ProductClass();
 $obj->deleteProduct();

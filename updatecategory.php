@@ -1,6 +1,6 @@
 <?php include 'header.php';
 include 'sidebar.php';
-include "Classes/CategoriClass.php";
+include "Classes/Categori.php";
 
 $successMessage = '';
 $errorMessage = '';

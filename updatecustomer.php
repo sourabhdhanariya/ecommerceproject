@@ -1,7 +1,7 @@
 
 <?php include 'header.php';
 include 'sidebar.php';
-include 'Classes/CustomerClass.php';
+include 'Classes/Customer.php';
 
 $successMessage = '';
 $errorMessage = '';
@@ -90,66 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="card">
             <div class="">
 
-
-            <?php
-// $obj = new Database();
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//   $customername = $_POST['customername'];
-//   $mobile_Name = $_POST['mobile_name'];
-//   $email = $_POST['email_address'];
-
-//   $billingAdd1 = $_POST['biladdress1'];
-//   $billingAdd2 = $_POST['biladdress2'];
-//   $billingCity = $_POST['bilcity'];
-//   $billingState = $_POST['bilstate'];
-//   $billingCountry = $_POST['billcountry'];
-//   $billingZip = $_POST['billzip'];
-
-//   $shippingAdd1 = $_POST['shipaddress1'];
-//   $shippingAdd2 = $_POST['shipaddress2'];
-//   $shippingCity = $_POST['shipcity'];
-//   $shippingState = $_POST['shipstate'];
-//   $shippingCountry = $_POST['shipcountry'];
-//   $shippingZip = $_POST['shipzip'];
-
-//   $id = isset($_POST['id']) ? $_POST['id'] : '';
-//   $updateParams = array(
-//     'customer_name' => $customername,
-//     'customer_mobile' => $mobile_Name,
-//     'customer_email' => $email,
-//     'customerbilling_address1' => $billingAdd1,
-//     'customerbilling_address2' => $billingAdd2,
-//     'customerbilling_city' => $billingCity,
-//     'customerbilling_state' => $billingState,
-//     'customerbilling_country' => $billingCountry,
-//     'shipping_address1' => $shippingAdd1,
-//     'shipping_address2' => $shippingAdd2,
-//     'shipping_city' => $shippingCity,
-//     'shipping_state' => $shippingState,
-//     'shipping_country' => $shippingCountry,
-//     'shipping_zip' => $shippingZip
-//   );
-
-//   $whereClause = "customer_id = $id";
-//   $updateResult = $obj->updateData('customer', $updateParams, $whereClause);
-
-//   if ($updateResult) {
-//     $updatedCategory = $obj->sqlData("SELECT * FROM customer WHERE customer_id = $id");
-//     $selectedCategoryID = isset($updatedCategory[0]['customer_id']) ? $updatedCategory[0]['customer_id'] : '';
-
-//     echo "<script>
-//     toastr.success('Form Updated successfully', 'Success');
-//     toastr.options = {
-//       positionClass: 'toast-top-right', 
-//       progressBar: true, 
-//     };
-//     </script>";
-//   } else {
-//     echo "Failed to update category. Error: " . implode(', ', $obj->getResult());
-//   }
-// }
-?>
 
 <?php
               $id = isset($_GET['updatecustomerid']) ? $_GET['updatecustomerid'] : '';
