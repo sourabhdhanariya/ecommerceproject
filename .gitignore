@@ -1,0 +1,14 @@
+# Ignore image files
+/images/*
+
+# Ignore asset files
+/assets/*
+
+# Ignore CSS files
+/css/*
+
+# Ignore JavaScript files
+/js/*
+
+# Ignore source files
+/src/*
