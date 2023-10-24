@@ -5,7 +5,7 @@ include "Classes/Categori.php";
 $successMessage = '';
 $errorMessage = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoriObj = new CategoriClass();
+    $categoriObj = new Categori();
 
     $categoryName = $_POST['categoryName'];
     $parent_category_id = $_POST['parent_category_id'];
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php
                             $id = isset($_GET['id']) ? $_GET['id'] : '';
 
-                            $obj = new CategoriClass();
+                            $obj = new Categori();
 
                             if (!empty($id)) {
                                 $results = $obj->selectCategory($id);
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                         <?php
 
-                                        $obj = new CategoriClass();
+                                        $obj = new Categori();
                                         echo '<option value="0">No Parent Categories </option>';
                                         $parentCategories = $obj->getCategories();
                                         foreach ($parentCategories as $category) {

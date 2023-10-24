@@ -51,7 +51,7 @@ include 'Classes/Categori.php';
                                     <tbody>
 
                                         <?php
-                                        $obj = new CategoriClass();
+                                        $obj = new Categori();
                                         $obj->updateCategoryStatus();
 
                                         // Fetch and display the updated data

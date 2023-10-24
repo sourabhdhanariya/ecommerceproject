@@ -11,7 +11,7 @@ $passwordError = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $database = new LoginClass();
+    $database = new Login();
     $database->loginData($email, $password); // Call the loginData method
 }
 ?>

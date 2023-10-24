@@ -6,7 +6,7 @@ include 'Classes/Customer.php';
 $successMessage = '';
 $errorMessage = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $categoriObj = new CustomerClass();
+    $categoriObj = new Customer();
     $customername = $_POST['customername'];
     $mobile_Name = $_POST['mobile_name'];
     $email = $_POST['email_address'];
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php
               $id = isset($_GET['updatecustomerid']) ? $_GET['updatecustomerid'] : '';
-              $obj = new CustomerClass();
+              $obj = new Customer();
               $results = $obj->customerById($id);
 
               if (!empty($results)) {

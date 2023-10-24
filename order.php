@@ -106,7 +106,7 @@ include 'Classes/Order.php';
                         <?php
                         
                         
-$obj = new OrderClass();
+$obj = new Order();
 
 $obj->updateStatusOrder();
 
@@ -116,7 +116,7 @@ $obj->updateStatusOrder();
 
                         $selectedFilter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
         
-                        $obj = new OrderClass();
+                        $obj = new Order();
                     
                         $sql = $obj->selectorder();
     

@@ -7,7 +7,7 @@
  * 
  * @author sourabh dhanariya <kuamwatsourabh65@gmail.com>
  */
-class OrderClass extends Database
+class Order extends Database
 {
     public function updateStatusOrder()
     {

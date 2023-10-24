@@ -1,11 +1,13 @@
 <?php
 
+include 'systemconfiguration.php';
+
 class Database
 {
-    protected $db_host = "localhost";
-    protected $db_user = "root";
-    protected $db_pass = "";
-    protected $db_name = "project123";
+    protected $db_host = HOST;
+    protected $db_user = USER;
+    protected $db_pass = PASSWORD;
+    protected $db_name = DATABASE;
     protected $conn = false;
     protected $result = [];
     protected $mysqli;

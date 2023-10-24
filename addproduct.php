@@ -21,7 +21,7 @@ $productDes = '';
 $des_error = '';
 
 if (isset($_POST["submit"])) {
-  $obj = new ProductClass();
+  $obj = new Product();
 
   $productname = trim($_POST["productname"]);
   $prod_price = trim($_POST["productPrice"]);
@@ -67,7 +67,7 @@ if (isset($_POST["submit"])) {
   if (empty($name_error) && empty($price_error) && empty($discount_error) && ($prod_price >= $product_discount)
     && empty($sku_error)  && empty($des_error)) {
     try {
-      $categoriObj = new ProductClass();
+      $categoriObj = new Product();
       $response = $categoriObj->addProduct(
         $productname,
         $productDes,
@@ -165,7 +165,7 @@ if (isset($_POST["submit"])) {
 
                   <select name="category_id" id="categoryId" class="form-select">
                     <?php
-                    $obj = new CategoriClass();
+                    $obj = new Categori();
                     //add categories 
                     $categories = $obj->getCategories();
 
@@ -189,7 +189,7 @@ if (isset($_POST["submit"])) {
                   <select id="subCategoryId" name="sub_category_id" class="form-select">
                     <?php
 
-                    $obj = new ProductClass();
+                    $obj = new Product();
 
                     $results = $obj->getProductCategories();
 

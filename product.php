@@ -5,7 +5,7 @@ include 'sidebar.php';
 include 'Classes/Product.php';
 include 'Classes/Categori.php';
 
-$obj = new ProductClass();
+$obj = new Product();
 $obj->deleteProduct();
 ?>
 <div class="pcoded-content">
@@ -52,7 +52,7 @@ if (isset($_GET['category_id'])) {
         <option value="0" <?php echo ($categoryIdFilter === '0') ? 'selected' : ''; ?>>All Categories</option>
         <?php
         
-        $obj = new CategoriClass();
+        $obj = new Categori();
 
         
 
@@ -102,18 +102,18 @@ if (isset($_GET['category_id'])) {
                         <?php
 //active and deactive 
 
-$obj = new ProductClass();
+$obj = new Product();
 $obj->updateProductStatus();
 
 
 $categoryIdFilter = isset($_GET['category_id']) ? $_GET['category_id'] : '0';
-$obj = new ProductClass();  // Replace with the appropriate SQL class you are using
+$obj = new Product(); 
 
 $sqlResult = $obj->getProductCategoriesFilter($categoryIdFilter);
 
 
 if (is_string($sqlResult)) {
-    echo "Invalid SQL query: $sqlResult"; // Handle the error
+    echo "Invalid SQL query: $sqlResult"; 
 } else {
     $results = $sqlResult;
     $counter = 1;

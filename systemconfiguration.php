@@ -1,4 +1,9 @@
 <?php
+//database 
+define("HOST", "localhost"); 
+define("USER", "root"); 
+define("PASSWORD", ""); 
+define("DATABASE", "project123"); 
 
 //image path 
 define("CATEGORI_IMAGE", "images/category/"); 

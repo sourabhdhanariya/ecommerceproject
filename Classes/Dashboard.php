@@ -7,7 +7,7 @@
  * @author sourabh dhanariya <kuamwatsourabh65@gmail.com>
  */
 
-class DashboardClass extends Database
+class Dashboard extends Database
 {
     /**
      * @param int $status

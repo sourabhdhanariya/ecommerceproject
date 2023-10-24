@@ -11,7 +11,7 @@ $errorMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_title = $_POST['product_title'];
-    $categoriObj = new ProductClass();
+    $categoriObj = new Product();
 
     $product_description = $_POST['productDes'];
     $product_price = $_POST['productPrice'];
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $productLaunchFormatted = date('Y-m-d', strtotime($_POST['launch']));
         $status = isset($_POST["status"]) && $_POST["status"] == "on" ? 1 : 0;
        
-        $categoriObj = new ProductClass();
+        $categoriObj = new Product();
         $response =   $categoriObj->updateProduct($product_title, $product_description, $product_price, $product_discount, $product_quantity, $category, $subcategory_id, $skuProduct, $productLaunchFormatted, $status);
     
 }}
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $id = isset($_GET['updateid']) ? $_GET['updateid'] : '';
 
 
-$obj = new ProductClass();
+$obj = new Product();
  
 if (!empty($id)) {
     $results = $obj->selectProduct($id);
@@ -174,7 +174,7 @@ if (!empty($results)) {
   <select id="categoryId"  name="category" class="form-select">
     <?php 
 
-    $obj = new CategoriClass();
+    $obj = new Categori();
     
     $categories = $obj->getCategories();
        
@@ -200,17 +200,9 @@ if (!empty($results)) {
   <select id="subCategoryId" name="subcategoryid" class="form-select">
     <?php 
     
-    $obj = new ProductClass();
+    $obj = new Product();
 
     $results = $obj->getProductCategories();
-    
-    // $obj->sqlData('SELECT c1.category_id, c1.category_name, c1.parent_category_id,
-    // c1.category_description, c1.category_image_path, c1.status,
-    // c2.category_name AS parent_category_name
-    // FROM categories c1
-    // INNER JOIN categories c2 ON c1.parent_category_id = c2.category_id');
-    
-    // $results = $obj->getResult();
     
     if (!empty($results)) {
 

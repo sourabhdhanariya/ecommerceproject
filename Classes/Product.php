@@ -7,10 +7,9 @@
  *
  * @author sourabh dhanariya <kuamwatsourabh65@gmail.com>
  */
-// include 'mediaClass.php';
 
 
-class ProductClass extends Database
+class Product extends Database
 {
     /**
      * Sync Batch Close Recode on QBO

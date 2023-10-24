@@ -13,7 +13,7 @@ if (isset($_POST["submit"])) {
 
     if (!empty($categoryName) && !empty($_FILES["categoryImage"]["name"])) {
         // File upload handling code here
-        $categoriObj = new CategoriClass();
+        $categoriObj = new Categori();
         $response = $categoriObj->addCategory(
             $categoryName,
             $categoryDes,
@@ -79,7 +79,7 @@ if (isset($_POST["submit"])) {
                                     <label for="parent_category_id" class="form-label">Parent Category </label>
                                     <select id="parent_category_id" name="parent_category_id" class="form-select tablesize">
                                         <?php
-                                        $obj = new CategoriClass();
+                                        $obj = new Categori();
                                         //add categories
                                         $categories = $obj->getCategories();
                                         if (!empty($categories)) {

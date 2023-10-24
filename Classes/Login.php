@@ -4,9 +4,8 @@
  *
  * @author sourabh dhanariya <kuamwatsourabh65@gmail.com>
  */
-include './systemconfiguration.php';
 
-class LoginClass extends Database
+class Login extends Database
 {
     /**
      *  string $email 

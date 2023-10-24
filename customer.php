@@ -62,7 +62,7 @@ include 'Classes/Customer.php';
 
 
 
-$obj = new CustomerClass();
+$obj = new Customer();
 
 $obj->updateCustomerStatus();
 

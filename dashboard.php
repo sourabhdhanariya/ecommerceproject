@@ -12,7 +12,7 @@ include 'Classes/Dashboard.php';
                     <div class="row">
                         <!-- order-card start -->
                         <?php
-                        $categoriObj = new DashboardClass();
+                        $categoriObj = new Dashboard();
                         ?>
 
                         <div class="col-md-6 col-xl-2 margin">

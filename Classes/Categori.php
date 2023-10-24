@@ -7,8 +7,7 @@
  * 
  * @author sourabh dhanariya <kuamwatsourabh65@gmail.com>
  */
-include './systemconfiguration.php';
-class CategoriClass extends Database
+class Categori extends Database
 {
     /**
      * Sync Batch Close Recode on QBO

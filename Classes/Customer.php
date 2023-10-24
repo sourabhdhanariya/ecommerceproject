@@ -4,8 +4,7 @@
  * updateCustomer, getCustomer, customerById,updateCustomerStatus 
  */
 
-include './systemconfiguration.php';
-class CustomerClass extends Database
+class Customer extends Database
 {
     /**
      * @param string customername
