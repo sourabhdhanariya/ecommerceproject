@@ -74,7 +74,6 @@ class Customer extends Database
         }
     }
 
-
     public function updateCustomerStatus()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

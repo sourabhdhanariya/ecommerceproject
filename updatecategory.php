@@ -90,8 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label for="inputEmail4" class="form-label">Category Name <span class="star">*</span></label>
                                     <input type="text" class="form-control tablesize" value="<?php echo htmlspecialchars($category_name); ?>" name="categoryName" id="categoryName">
                                     <input type="hidden" name="id" value="<?= $id ?>">
-                                    <!-- <span style="color:red;"></?php if ($categoryName != "") {
-                                                                }  ?></span> -->
                                 </div>
                                 <div class="col-md-6">
                                     <label for="parent_category_id" class="form-label">Parent Category</label>

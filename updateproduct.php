@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_discount = $_POST['product_discount'];
 
     if ($product_price <= $product_discount) {
-        echo "Price cannot be greater than the discount.";
+        // echo "Price cannot be greater than the discount.";
         
     } else {
         $product_quantity = $_POST['prod_quantity'];
@@ -30,9 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
        
         $categoriObj = new Product();
         $response =   $categoriObj->updateProduct($product_title, $product_description, $product_price, $product_discount, $product_quantity, $category, $subcategory_id, $skuProduct, $productLaunchFormatted, $status);
-    
+  
 }}
-
 ?>
  
 <?php if (!empty($response) && $response["success"] === true) : ?>
@@ -150,10 +149,10 @@ if (!empty($results)) {
                                            
                                         
           
-                                            <form id="" method="post" enctype="multipart/form-data" class="row g-3 p-5 ">
+                                            <form id="categoryFormUpdate" method="post" enctype="multipart/form-data" class="row g-3 p-5 ">
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label ">Product Name <span class="star">*</span></label>
-    <input type="text" class="form-control tablesize" value="<?php echo htmlspecialchars($product_title); ?>" name="product_title" placeholder="Enter Name" id="productname" required>
+    <input type="text" class="form-control tablesize" value="<?php echo htmlspecialchars($product_title); ?>" name="product_title" placeholder="Enter Name" id="product_title" required>
     <input type="hidden" name="id" value="<?= $id ?>"> <!-- Add this hidden input for category ID -->
     
   </div>
@@ -429,5 +428,7 @@ if (!empty($product_images)) {
         </div>
     </div>
 </div>
-        <script src="./js/addproduct.js"></script><?php include 'footer.php' ?>
+        <script src="./js/addproduct.js">
+          
+        </script><?php include 'footer.php' ?>
 

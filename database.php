@@ -192,6 +192,11 @@ public function selectData(
         }
     }
     
+    public function selectData1($table, $columns, $join = null) {
+        $query = "SELECT $columns FROM $table";
+        if (!empty($join)) {
+            $query .= " JOIN $join";
+        }}
   
     public function getProduct()
     {

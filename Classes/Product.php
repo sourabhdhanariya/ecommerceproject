@@ -16,7 +16,6 @@ class Product extends Database
      * @param string productname
      * @param string productDes
      * @param string category_id
-     * @param string sub_category_id
      * @param int prod_quantity
      * @param float prod_price
      * @param float product_discount
@@ -24,23 +23,26 @@ class Product extends Database
      * @param string productLaunchFormatted
      * @param const UPLOAD_DIR
      */
-
-     public function addProduct(string $productname, string $productDes, string $category_id, string $sub_category_id, int $prod_quantity, float $prod_price, float $product_discount, string $prod_sku, string $productLaunchFormatted, $status, $obj)
+    
+     public function addProduct(string $productname, string $productDes, $category_id, int $prod_quantity, float $prod_price, float $product_discount, string $prod_sku, string $productLaunchFormatted, $status, $obj, $product_variate, $product_attribute, $product_qty)
      {
          $mediaIds = array();
-         $validExtensions = array("jpg", "jpeg", "png", "mp4"); 
+     
+         // Loop through uploaded media files
          for ($i = 0; $i < count($_FILES["media-upload"]["name"]); $i++) {
              $uploadedFile = PRODUCT_IMAGE . basename($_FILES["media-upload"]["name"][$i]);
              $fileExtension = strtolower(pathinfo($_FILES["media-upload"]["name"][$i], PATHINFO_EXTENSION));
      
-             if ($_FILES["media-upload"]["size"][$i] <= 3 * 1024 * 1024 && in_array($fileExtension, $validExtensions)) {
+             // Check if the file size is greater than 0 (i.e., file exists)
+             if ($_FILES["media-upload"]["size"][$i]) {
+                 // Move the uploaded file to a destination
                  if (move_uploaded_file($_FILES["media-upload"]["tmp_name"][$i], $uploadedFile)) {
                      if ($i === 0) {
+                         // Insert basic product data for the first media file
                          $dataToInsert = [
                              'product_title' => $productname,
                              'product_description' => $productDes,
                              'category_id' => $category_id,
-                             'subcategory_id' => $sub_category_id,
                              'product_quantity' => $prod_quantity,
                              'product_price' => $prod_price,
                              'product_discount' => $product_discount,
@@ -53,10 +55,13 @@ class Product extends Database
                          $product_id = $obj->insertMutipleData('products', $dataToInsert);
      
                          if ($product_id !== false) {
+                             // Product data successfully inserted
                          } else {
+                             // Handle the case where product data insertion fails
                          }
                      } else {
                          if (isset($product_id)) {
+                             // Insert additional media data
                              $mediaDataToInsert = [
                                  'product_id' => $product_id,
                                  'product_image' => $uploadedFile,
@@ -75,10 +80,34 @@ class Product extends Database
                      return ['success' => false, 'msg' => "Image/Video is not uploaded"];
                  }
              } else {
-                 return ['success' => false, 'msg' => "Ony, mp4, png and jpg"];
+                 return ['success' => false, 'msg' => "Only images or videos are allowed"];
              }
          }
-         return ['success' => true, 'msg' => 'Product inserted successfully.'];
+     
+         // After inserting all media and basic product data, insert data into the product_manage table
+         if (isset($product_id)) {
+             // Insert data into the product_manage table
+             $productManageData = [
+                 'product_id' => $product_id,
+                 'name' => $product_attribute,
+                 'variate' => $product_variate,
+                 'qty' => $product_qty,
+                 'sku' => $prod_sku
+
+             ];
+     
+             $productManageId = $obj->insertMutipleData('product_manange', $productManageData);
+     
+             if ($productManageId !== false) {
+                 // Product and product_manage data successfully inserted
+             } else {
+                 // Handle the case where product_manage data insertion fails
+             }
+         } else {
+             return ['success' => false, 'msg' => 'Product id Error'];
+         }
+     
+         return ['success' => true, 'msg' => 'Product and related data inserted successfully.'];
      }
      
      
@@ -97,7 +126,7 @@ class Product extends Database
      */
 
 
-    public function updateProduct( string $product_title, string  $product_description, float $product_price, float $product_discount, int  $product_quantity,string $category, string $subcategory_id, string $skuProduct, string $productLaunchFormatted, int $status)
+    public function updateProduct( string $product_title, string  $product_description, float $product_price, float $product_discount, int  $product_quantity,string $category, string $skuProduct, string $productLaunchFormatted, int $status)
     {
         $id = isset($_POST['id']) ? $_POST['id'] : '';
         $uploadedFiles = array(); 
@@ -121,7 +150,6 @@ class Product extends Database
             'product_discount' => $product_discount,
             'product_quantity' => $product_quantity,
             'category_id' => $category,
-            'subcategory_id' => $subcategory_id,
             'sku' => $skuProduct,
             'launch_date' => $productLaunchFormatted,
             'status' => $status,
@@ -161,7 +189,7 @@ class Product extends Database
     public function selectProduct(int $id)
     {
         $table = "products";
-        $columns = "`product_id`, `product_title`, `product_description`, `category_id`, `subcategory_id`, `product_image`, `product_price`, `product_discount`, `product_quantity`, `sku`, `launch_date`, `status`";
+        $columns = "`product_id`, `product_title`, `product_description`, `category_id`, `product_image`, `product_price`, `product_discount`, `product_quantity`, `sku`, `launch_date`, `status`";
         $where = "product_id = '$id'";
 
         return $this->selectData($table, $columns, null, $where);
@@ -176,6 +204,7 @@ class Product extends Database
 
         return $this->selectData($table, $columns, $join);
     }
+    
 
     /**
      * Sync Batch Close Recode on QBO
@@ -211,6 +240,8 @@ class Product extends Database
             }
         }
     }
+
+
     public function deleteProduct()
     {
 
@@ -225,4 +256,23 @@ class Product extends Database
             }
         }
     }
+    public function displayCategoryDropdown($parent_id = 0, $indent = 0)
+    {
+        $sql = "SELECT * FROM categories WHERE parent_category_id = ?";
+        $stmt = $this->mysqli->prepare($sql);
+        $stmt->bind_param("i", $parent_id);
+        $stmt->execute();
+   
+        
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo '<option value="' . $row["category_id"] . '" class="category-option">' . str_repeat('&nbsp;', $indent * 4) . $row["category_name"] . '</option>';
+                $this->displayCategoryDropdown($row["category_id"], $indent + 1);
+            }
+        }
+    }
+
 }
+

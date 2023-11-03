@@ -7,7 +7,7 @@
  * 
  * @author sourabh dhanariya <kuamwatsourabh65@gmail.com>
  */
-class Order extends Database
+class Transaction extends Database
 {
     public function updateStatusOrder()
     {
@@ -23,7 +23,7 @@ class Order extends Database
 
             $updateParams = array('status' => $newStatus);
             $whereClause = "id  = $id";
-            $updateResult = $this->updateData('customer_order', $updateParams, $whereClause);
+            $updateResult = $this->updateData('transaction', $updateParams, $whereClause);
 
             if ($updateResult) {
             } else {
@@ -33,11 +33,14 @@ class Order extends Database
     }
     public function selectorder()
     {
-        $table = "customer_order";
-        $columns = "`id`, `order_id`, `product_id`, `product_name`, `product_image`, `category`, `customer_name`, `customer_address`, `shiping_address`, `city`, `state`, `country`, `zip`, `order_date`, `shiping_city`, `shiping_state`, `shiping_country`, `shiping_zip`, `price`, `quantity`, `status`";
-        
-        return "SELECT $columns FROM $table";
+        $table = "transaction";
+        $columns = "$table.id, $table.order_id, $table.transaction_id, $table.card_type, $table.date, $table.price, $table.status,
+        t.order_id AS order_name";
+    
+        $where = "WHERE 1"; // If you want to select all records, you can use "WHERE 1" or simply omit the WHERE clause
+        $join = "JOIN customer_order AS t ON $table.order_id = t.id"; // Use table aliases to specify the 'id' column
+    
+        return "SELECT $columns FROM $table $join $where";
     }
-    
-    
+            
 }

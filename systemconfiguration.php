@@ -3,7 +3,7 @@
 define("HOST", "localhost"); 
 define("USER", "root"); 
 define("PASSWORD", ""); 
-define("DATABASE", "project123"); 
+define("DATABASE", "projectdexbytes"); 
 
 //image path 
 define("CATEGORI_IMAGE", "images/category/"); 

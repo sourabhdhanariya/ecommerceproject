@@ -17,53 +17,39 @@ class Categori extends Database
      * @param array categoryImage
      * @param const UPLOAD_DIR
      */
-
-    public function addCategory(string $categoryName, string $categoryDes, string $parent_category_id = null, array $categoryImage)
+    public function addCategory(string $categoryName, string $categoryDes = null, string $parent_category_id = null, array $categoryImage)
     {
-
-        $allowedExtensions = ["png", "jpg", "jpeg"];
-        $maxFileSize = 3 * 1024 * 1024;
-
-        $uploadedFileName = basename($categoryImage["name"]);
-
-        $fileExtension = strtolower(pathinfo($uploadedFileName, PATHINFO_EXTENSION));
-
-        if (!in_array($fileExtension, $allowedExtensions)) {
-            return ["success" => false, "msg" => IMAGE_ERROR];
-        }
-
-        if ($categoryImage["size"] > $maxFileSize) {
-            return ["success" => false, "msg" => IMAGE_SIZE];
-        }
-
-        if (move_uploaded_file($categoryImage["tmp_name"], CATEGORI_IMAGE . $uploadedFileName)) {
-            $dataToInsert = [
-                "category_name" => $categoryName,
-                "category_description" => $categoryDes,
-                "category_image_path" => $uploadedFileName,
-                "parent_category_id" => $parent_category_id,
-            ];
-
-            try {
-                $result = $this->insertData("categories", $dataToInsert);
-
-                if ($result === true) {
-                    return ["success" => true, "msg" => CATEGORY_SUCCESS];
-                } else {
-                    return ["success" => false, "msg" => CATEGORY_ERROR . implode(", ", $this->getResult())];
-                }
-            } catch (mysqli_sql_exception $e) {
-                if ($e->getCode() === 1062) {
-                    return ["success" => false, "msg" => CATEGORY_NAME];
-                } else {
-                    return ["success" => false, "msg" => CATEGORY_NAME_ERROR . $e->getMessage()];
-                }
-            }
+        if (!empty($categoryImage["name"])) {
+            $uploadedFileName = basename($categoryImage["name"]);
+            move_uploaded_file($categoryImage["tmp_name"], CATEGORI_IMAGE . $uploadedFileName);
         } else {
-            return ["success" => false, "msg" => IMAGE_ERROR];
+            // Use a default image path when $categoryImage is empty
+            $uploadedFileName = 'remove3.png'; // Change this to your default image path
+        }
+    
+        $dataToInsert = [
+            "category_name" => $categoryName,
+            "category_description" => $categoryDes,
+            "category_image_path" => $uploadedFileName,
+            "parent_category_id" => $parent_category_id,
+        ];
+    
+        try {
+            $result = $this->insertData("categories", $dataToInsert);
+    
+            if ($result === true) {
+                return ["success" => true, "msg" => CATEGORY_SUCCESS];
+            } else {
+                return ["success" => false, "msg" => CATEGORY_ERROR . implode(", ", $this->getResult())];
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() === 1062) {
+                return ["success" => false, "msg" => CATEGORY_NAME];
+            } else {
+                return ["success" => false, "msg" => CATEGORY_NAME_ERROR . $e->getMessage()];
+            }
         }
     }
-
     /**
      * Sync Batch Close Recode on QBO
      * @param string categoryName
@@ -118,8 +104,6 @@ class Categori extends Database
             ];
         }
     }
-
-
     /**
      * Sync Batch Close Recode on QBO
      * @param int id 

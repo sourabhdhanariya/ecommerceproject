@@ -3,6 +3,8 @@ include 'header.php';
 include 'sidebar.php';
 include 'Classes/Categori.php';
 include 'Classes/Product.php';
+include 'Classes/Productvariate.php';
+
 
 $successMessage = '';
 $errorMessage = '';
@@ -17,8 +19,6 @@ $prod_sku = '';
 $prod_quantity = '';
 $quntity_error = '';
 $img_error = '';
-$productDes = '';
-$des_error = '';
 
 if (isset($_POST["submit"])) {
   $obj = new Product();
@@ -29,11 +29,20 @@ if (isset($_POST["submit"])) {
   $prod_quantity = trim($_POST["qtyProduct"]);
   $prod_sku = trim($_POST["skuProduct"]);
   $productDes = trim($_POST["productDes"]);
+
+
   $category_id = trim($_POST["category_id"]);
-  $sub_category_id = $_POST["sub_category_id"];
   $productLaunch = $_POST["launch"];
   $status = isset($_POST["status"]) && $_POST["status"] == "on" ? 1 : 0;
   $productLaunchFormatted = date('Y-m-d', strtotime($productLaunch));
+  // product_manage_table
+  
+  $product_variate = trim($_POST["product_variate"]);
+  $product_attribute = trim($_POST["product_attribute"]);
+  $product_qty = trim($_POST["product_qty"]);
+  
+// end 
+
 
   if (empty($productname)) {
     $name_error = "Please Enter Name";
@@ -59,27 +68,29 @@ if (isset($_POST["submit"])) {
     $quntity_error = "Please Enter Quantity";
   }
 
-  if (empty($productDes)) {
-    $des_error = "Please Enter Des";
-  }
 
-
-  if (empty($name_error) && empty($price_error) && empty($discount_error) && ($prod_price >= $product_discount)
-    && empty($sku_error)  && empty($des_error)) {
+  if (
+    empty($name_error) && empty($price_error) && empty($discount_error) && ($prod_price >= $product_discount)
+    && empty($sku_error)
+  ) {
     try {
       $categoriObj = new Product();
       $response = $categoriObj->addProduct(
         $productname,
         $productDes,
         $category_id,
-        $sub_category_id,
         $prod_quantity,
         $prod_price,
         $product_discount,
         $prod_sku,
         $productLaunchFormatted,
         $status,
-        $obj
+        $obj,
+// product management table 
+        $product_variate,
+        $product_attribute,
+        $product_qty
+
       );
       $successMessage = 'Product added successfully';
     } catch (Exception $e) {
@@ -91,7 +102,7 @@ if (isset($_POST["submit"])) {
 }
 ?>
 
-               
+
 
 <?php if (!empty($response) && $response["success"] === true) : ?>
   <script>
@@ -104,7 +115,16 @@ if (isset($_POST["submit"])) {
 <?php endif; ?>
 
 <link rel="stylesheet" href="css/addprodyct.css">
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.0.45/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="style1.css">
+<style>
+  body {}
 
+  .container {
+    margin: 150px auto;
+  }
+</style>
 <div class="pcoded-content">
   <div class="pcoded-inner-content">
     <!-- Main-body start -->
@@ -160,62 +180,28 @@ if (isset($_POST["submit"])) {
 
 
                 </div>
-                <div class="col-md-4">
-                  <label for="parent_category_id" class="form-label"> Category </label>
-
-                  <select name="category_id" id="categoryId" class="form-select">
-                    <?php
-                    $obj = new Categori();
-                    //add categories 
-                    $categories = $obj->getCategories();
-
-                    if (!empty($categories)) {
-
-                      foreach ($categories as $row) {
-                        $category_id = $row['category_id'];
-                        $category_name = $row['category_name'];
-                        echo '<option value="' . $category_id . '.' . $category_name . '" ' . $selected . '>' . $category_name . '</option>';
-                      }
-                    } else {
-                      echo '<option value="0">No Parent Categories found</option>';
-                    }
-                    ?>
-                  </select>
-
-                </div>
-
-                <div class="col-md-4">
-                  <label for="parent_category_id" class="form-label">Sub Category </label>
-                  <select id="subCategoryId" name="sub_category_id" class="form-select">
-                    <?php
-
-                    $obj = new Product();
-
-                    $results = $obj->getProductCategories();
-
-                    if (!empty($results)) {
 
 
-                      foreach ($results as $row) {
-                        $category_id = $row['category_id'];
-                        $sub_category_name = $row['parent_category_name'];
-                        echo '<option value="' . $category_id . '.' . $sub_category_name . '" ' . $selected . '>' . $sub_category_name . '</option>';
-                      }
-                    } else {
-                      echo '<option value="0">No Parent Categories found</option>';
-                    }
-                    ?>
-                  </select>
+                <?php
+                $products = new Product();
+                $categoryData = $products->fetchCategoryData(0);
+                ?>
+<div class="col-lg-5">
+    <label for="category_id" class="form-label">Category</label>
+    <input type="text" id="selectedCategoryId" name="category_id" value=""/>
+    <input type="text" class="form-select tablesize" id="categoryComboTree" placeholder="Category" autocomplete="off" />
+</div>
 
-                </div>
-                <div class="col-md-2">
+
+
+                <div class="col-md-3">
                   <label for="productPrice" class="form-label">Price per Unit <span class="star">*</span></label>
                   <input type="text" class="form-control tablesize" placeholder="Enter Product Price" id="productPrice" value="<?php echo $prod_price ?>" name="productPrice">
                   <span style="color:red;"><?php if (!empty($price_error)) {
                                               echo $price_error;
                                             } ?></span>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <label for="productdiscount" class="form-label">Discount <span class="star">*</span></label>
                   <input type="text" class="form-control tablesize" placeholder="Enter Product Discount" id="productdiscount" value="<?php echo $product_discount ?>" name="productdiscount"> <!-- Changed 'name' to 'productdiscount' -->
 
@@ -227,11 +213,14 @@ if (isset($_POST["submit"])) {
 
                 <div class="col-md-4">
                   <label for="inputEmail4" class="form-label">Quantity <span class="star">*</span></label>
-                  <input type="text" class="form-control tablesize" placeholder="Enter Product Quantity" name="qtyProduct" value="<?php echo $prod_quantity ?>"  id="qtyProduct">
-                  <span style="color:red;"><?php if ($prod_quantity != "") {} else {echo $quntity_error;} ?></span>
-               
+                  <input type="text" class="form-control tablesize" placeholder="Enter Product Quantity" name="qtyProduct" value="<?php echo $prod_quantity ?>" id="qtyProduct">
+                  <span style="color:red;"><?php if ($prod_quantity != "") {
+                                            } else {
+                                              echo $quntity_error;
+                                            } ?></span>
+
                 </div>
-                
+
 
                 <div class="col-md-4">
 
@@ -241,8 +230,9 @@ if (isset($_POST["submit"])) {
                                             } else {
                                               echo $sku_error;
                                             } ?></span>
-               
+
                 </div>
+
                 <div class=" col-md-4 ">
                   <label for="inputEmail4" class="form-label">Launch Date</label>
 
@@ -254,6 +244,59 @@ if (isset($_POST["submit"])) {
 
                 </div>
 
+                <div class="col-md-12">
+                <div class="customer_records">
+            <div class="customer_records">
+                
+                <div class="col-md-12 d-flex" >
+              
+                <div class="col-md-4">
+    <label for="customer_name">Select Variate</label>
+    <select id="parent_category_id" name="product_variate" class="form-select tablesize" onchange="updateVariate()">
+        <?php
+        $obj = new Productvariate();
+        // add categories
+        $categories = $obj->productVariate1();
+        if (!empty($categories)) {
+            echo '<option value="0">No Select variate  </option>';
+            foreach ($categories as $category) {
+                echo '<option value="' . $category["id"] . '">' . $category["name"] . "</option>";
+            }
+        } else {
+            echo '<option value="0">No Select variate </option>';
+        }
+        ?>
+    </select>
+    <br>
+</div>
+
+<div class="col-md-4">
+    <div class="form-group">
+        <label for="customer_name">Enter Variate</label>
+        <input type="text" class="form-control" name="product_attribute" id="enter_variate" placeholder="Enter Variate">
+    </div>
+</div> 
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="qyt_name">Enter Quantity</label>
+                    <input type="text" class="form-control" name="product_qty" id="qyt_name" placeholder="Enter Quantity" >
+                </div>
+            </div>
+                
+            </div>
+<!-- 
+                <a class="extra-fields-customer" href="#">Add More Customer</a> -->
+            </div>
+             <a name="" id="" class="btn btn-primary extra-fields-customer btn-sm  float-end " href="#" role="button">Add </a>
+   <br><br><br><br>
+            <div class="customer_records_dynamic">
+                <div class="input_fields_wrap">
+                    <!-- This is where dynamically added fields will go. -->
+                </div>
+            </div>
+        </div>
+                                          </div>                               </div>
             </div>
 
             <div class="col-12">
@@ -261,25 +304,15 @@ if (isset($_POST["submit"])) {
               <label for="">Product Description </label>
               <div id="productDes" class="form-floating tablesize">
 
-                <textarea name="productDes"  id="editor" cols="30" rows="10" value="<?php echo $productDes ?>">
+                <textarea name="productDes" id="editor" cols="30" rows="10" value="<?php echo $productDes ?>">
                 </textarea>
-                <span style="color:red;"><?php if ($productDes != "") {
-                                            } else {
-                                              echo $des_error;
-                                            } ?></span>
-              
               </div>
             </div>
             <div class="col-md-12 mt-3 d-flex">
               <div class="col-md-4">
                 <label for="formFileSm" class="form-label">Update Image <span class="star">*</span></label>
                 <input type="file" name="media-upload[]" id="media-upload" class="form-control form-control-sm mediaupload" accept="image/*" multiple><br><br>
-   <!-- <span style="color:red;"></?php if ($_FILES["media-upload"]["name"] != "") {
-                                            } else {
-                                              echo $img_error;
-                                            } ?></span>
-                -->
-               
+
               </div>
               <div class="col-md-8">
                 <div id="media-container" class="container-fluid d-flex flex-nowrap overflow-auto"></div>
@@ -358,9 +391,6 @@ if (isset($_POST["submit"])) {
                       <h6><strong>Sub-Category :</strong> </h6>
 
                     </div>
-                    <div class="col-md-6">
-                      <span id="previewsubCategoryId"> </span>
-                    </div>
 
                   </div>
 
@@ -406,6 +436,130 @@ if (isset($_POST["submit"])) {
               </div>
             </div>
           </div>
+          <script>
+            jQuery(document).ready(function() {
+              jQuery('#datepicker').datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: 0
+              });
+            });
+          </script>
+
+          <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+          <script src="comboTreePlugin.js" type="text/javascript"></script>
+          <script type="text/javascript">
+   $(document).ready(function() {
+    $.ajax({
+        url: 'Classes/get_categories.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#categoryComboTree').comboTree({
+                source: data,
+                isMultiple: false,
+                cascadeSelect: false,
+                collapse: true,
+                selectName: 'title',
+                selectValue: 'id',
+            });
+
+            // Add an event listener to handle changes in the comboTree selection
+            $('#categoryComboTree').on('combotree:change', function(event, values) {
+                // Get the selected category ID
+                var selectedCategoryID = values[0];
+
+                // Update the hidden input field's value with the selected category ID
+                $('#selectedCategoryId').val(selectedCategoryID);
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+});
+
+  </script> 
+<script>
+    $(document).ready(function() {
+        var max_fields = 10; // maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap"); // Fields wrapper
+        var add_button = $(".extra-fields-customer"); // Add button ID
+        var x = 1; // initial text box count
+
+        $(add_button).click(function(e) {
+            e.preventDefault();
+            if (x < max_fields) {
+                x++;
+
+                var fieldHtml = `
+                    <div>
+                        <div class="form-row ms-5">
+                            <div class="form-group col-md-3">
+                                <select class="form-control" name="variate_name[${x}]" id="variate_name_${x}">
+                                    <option>Color</option>
+                                    <option>Size</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                            <input type="checkbox"  class="enable-disable ms-5" name="mycheckbox[${x}]"/>
+                            <input type="text" class="h-75"  name="mytext[${x}]" disabled/>
+                            <input type="text" class="ms-5 h-75" placeholder="Please Enter Quality" name="mydate[${x}]" disabled/>
+                        </div>
+                      
+          <a name="" id="" class="btn btn-danger remove_field" style="height:36px;" href="#" role="button">X</a>
+                        </div>
+                    </div>
+                `;
+
+                $(wrapper).append(fieldHtml);
+            }
+        });
+
+        $(wrapper).on("click", ".remove_field", function(e) {
+            e.preventDefault();
+            $(this).closest('div').remove();
+            x--;
+        });
+
+        // Add event listener for checkbox elements in dynamically added fields
+        wrapper.on("change", ".enable-disable", function() {
+            var textInputs = $(this).siblings("input[type='text']");
+            textInputs.prop("disabled", !this.checked);
+        });
+    });
+</script>
+<script>
+    function updateVariate() {
+        var selectElement = document.getElementById("parent_category_id");
+        var inputElement = document.getElementById("enter_variate");
+        
+        // Get the selected option's value
+        var selectedValue = selectElement.value;
+
+        // Get the attribute name associated with the selected value
+        var attributeName = getAttributeName(selectedValue);
+
+        // Set the value of the "Enter Variate" input field to the attribute name
+        inputElement.value = attributeName;
+    }
+
+    // Function to retrieve the attribute name based on the selected value
+    function getAttributeName(selectedValue) {
+        <?php
+        $obj = new Productvariate();
+        $variate = $obj->productVariate1();
+        if (!empty($variate)) {
+            foreach ($variate as $item) {
+                echo "if (selectedValue == " . $item["id"] . ") {
+                        return '" . $item["attribute"] . "';
+                    }";
+            }
+        }
+        ?>
+        return ''; // Return an empty string if no match is found
+    }
+</script>
+
 
           <script src="./js/addproduct.js"></script>
           <?php include 'footer.php' ?>

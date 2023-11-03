@@ -3,7 +3,6 @@ include "header.php";
 include "sidebar.php";
 include "Classes/Categori.php";
 $name_error = '';
-$image_error = '';
 $categoryName = '';
 
 if (isset($_POST["submit"])) {
@@ -11,7 +10,7 @@ if (isset($_POST["submit"])) {
     $categoryDes = $_POST["categoryDes"];
     $parent_category_id = !empty($_POST["parent_category_id"]) ? $_POST["parent_category_id"] : "";
 
-    if (!empty($categoryName) && !empty($_FILES["categoryImage"]["name"])) {
+    if (!empty($categoryName) ) {
         // File upload handling code here
         $categoriObj = new Categori();
         $response = $categoriObj->addCategory(
@@ -25,10 +24,7 @@ if (isset($_POST["submit"])) {
         if (empty($categoryName)) {
             $name_error = "Please Enter Name";
         }
-        if (empty($_FILES["categoryImage"]["name"])) {
-            $image_error = "Please Select Image";
-        }
-    }
+         }
 }
 ?>
 <?php if (!empty($response) && $response["success"] === true) : ?>
@@ -114,12 +110,7 @@ if (isset($_POST["submit"])) {
                                     <label for="">Category Image <span class="star">*</span></label>
 
                                     <input type="file" name="categoryImage" id="img-upload">
-                                    <span style="color:red;">
-                                        <?php if (empty($_FILES["categoryImage"]["name"])) {
-                                            echo $image_error;
-                                        } ?>
-                                    </span>
-
+                                 
                                 </div>
 
                                 <div class="col-md-4">

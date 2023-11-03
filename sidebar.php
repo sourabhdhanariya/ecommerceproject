@@ -47,7 +47,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="bs-basic-table.html">
+                                    <a href="transaction.php">
                                         <span class="pcoded-micon"><i class="bi bi-arrow-left-right translogo"></i><b>FC</b></span>
                                         <span class="pcoded-mtext" data-i18n="nav.form-components.main">Transactions</span>
                                         <span class="pcoded-mcaret"></span>

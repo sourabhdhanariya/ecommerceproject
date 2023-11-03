@@ -124,8 +124,12 @@ include 'Classes/Categori.php';
                                 </div>
                                 <div class="modal-body">
                                     <div class="modelbox d-flex">
-
-                                        <img id="category-image" class=" p-3 mb-5 bg-body rounded w-25" alt="Category Image" src="" />
+                                      
+                                    
+                                        <img id="category-image" class=" p-3 mb-5 bg-body rounded w-25" alt="Category Image" src="images/remove3.png" />
+                                    
+                                        
+                            
                                         <div class="text p-3 w-75 ">
                                             <h6 class="fw-bold tables tablesize">Category: <span class="float-end fw-normal" id="categoryname"></span></h6>
                                             <h6 class=" fw-bold tablesize">Parent Category: <span class="float-end fw-normal" id="category-parent"></span></h6>

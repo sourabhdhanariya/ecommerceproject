@@ -160,6 +160,7 @@ if (is_string($sqlResult)) {
 </div>
 <a class="btn btn-sm delete-link" data-id="<?= $id ?>" href="product.php?id=<?= $id ?>" role="button">
     <img src="images/delete1.png" class="imageweightview" alt="view">
+    
 </a>
 
 

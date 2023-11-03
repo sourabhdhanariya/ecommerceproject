@@ -168,13 +168,13 @@ $("#media-container div.media-item").each(function () {
     });
   })
   
-  (jQuery);
-  jQuery(document).ready(function () {
-    jQuery('#datepicker').datepicker({
-      dateFormat: 'mm-dd-yy',
-      minDate: 0
-    });
-  });
+//   (jQuery);
+//   jQuery(document).ready(function () {
+//     jQuery('#datepicker').datepicker({
+//       dateFormat: 'mm-dd-yy',
+//       minDate: 0
+//     });
+//   });
       
 
 $(document).ready(function() {
@@ -251,4 +251,68 @@ $(document).ready(function() {
             form.submit();
         }
     });
+});
+
+
+$('#categoryFormUpdate').validate({
+    rules: {
+        product_title: {
+            required: true
+        },
+        productPrice: {
+            required: true,
+            number: true,
+            min: 0
+        },
+        productdiscount: {
+            required: true,
+            number: true,
+            min: 0,
+            lessThanOrEqualToPrice: true
+        },    
+        qtyProduct: {
+            required: true,
+            number: true,
+            min: 0
+        },
+        skuProduct:{
+            required:true
+        },
+        productDes: {
+            required: true,
+            ckeditorNotEmpty: true,     }
+    },
+    
+    
+    messages: {
+        product_title: {
+            required: "Name field cannot be blank"
+        },
+        productPrice: {
+            required: "Please enter the price.",
+            number: "Please enter a valid number.",
+            min: "Price cannot be negative."
+        },
+        productdiscount: {
+            required: "Please enter a valid discount price.",
+            number: "Please enter a valid number.",
+            min: "Discounted price cannot be negative."
+        },
+        qtyProduct:{
+            required: "Quantity field cannot be blank."
+        },
+        skuProduct:{
+            required: "Sku field cannot be blank."
+        },
+        productDes:{
+            required:"please enter des",
+            number: "Please enter a valid number.",
+        },
+
+        
+        
+    },
+    submitHandler: function(form) {
+        form.submit();
+    }
 });

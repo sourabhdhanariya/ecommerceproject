@@ -38,25 +38,11 @@ $(document).ready(function() {
         rules: {
             categoryName: {
                 required: true
-            },
-            categoryDes: {
-                required: function() {
-                    return isCkeditorEmpty();
-                }
-            },
-            categoryImage: {
-                required: true
             }
         },
         messages: {
             categoryName: {
                 required: "Name field can not be blank"
-            },
-            categoryDes: {
-                required: "Description field can not be blank"
-            },
-            categoryImage: {
-                required: "Please upload Image"
             }
         },
         submitHandler: function(form) {
