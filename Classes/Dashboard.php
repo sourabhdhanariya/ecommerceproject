@@ -10,6 +10,7 @@
 class Dashboard extends Database
 {
     /**
+     * cusotmer order count
      * @param int $status
      */
     private function countOrdersWithStatus(int $status)
@@ -25,6 +26,9 @@ class Dashboard extends Database
             return 0;
         }
     }
+    /**
+     * order, complted,cancalled cout 
+     */
 
     public function selectCustomerCount()
     {

@@ -4,14 +4,11 @@ include "sidebar.php";
 include "Classes/Categori.php";
 $name_error = '';
 $categoryName = '';
-
 if (isset($_POST["submit"])) {
     $categoryName = trim($_POST["categoryName"]);
     $categoryDes = $_POST["categoryDes"];
     $parent_category_id = !empty($_POST["parent_category_id"]) ? $_POST["parent_category_id"] : "";
-
-    if (!empty($categoryName) ) {
-        // File upload handling code here
+    if (!empty($categoryName)) {
         $categoriObj = new Categori();
         $response = $categoriObj->addCategory(
             $categoryName,
@@ -20,11 +17,10 @@ if (isset($_POST["submit"])) {
             $_FILES["categoryImage"]
         );
     } else {
-        // Handle the case when $categoryName or $categoryImage is empty.
         if (empty($categoryName)) {
             $name_error = "Please Enter Name";
         }
-         }
+    }
 }
 ?>
 <?php if (!empty($response) && $response["success"] === true) : ?>
@@ -36,7 +32,6 @@ if (isset($_POST["submit"])) {
         toastr.error('<?php echo $response["msg"]; ?>', 'Error');
     </script>
 <?php endif; ?>
-
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <!-- Main-body start -->
@@ -59,7 +54,6 @@ if (isset($_POST["submit"])) {
                     </div>
                 </div>
                 <div class="page-body">
-                    <!-- Basic table card start -->
                     <div class="card">
                         <div class="">
                             <form id="categoryForm" method="post" enctype="multipart/form-data" class="row g-3 p-5 ">
@@ -67,10 +61,12 @@ if (isset($_POST["submit"])) {
                                     <label for="inputEmail4" class="form-label">Category Name <span class="star">*</span></label>
 
                                     <input type="text" class="form-control tablesize text-capitalize" name="categoryName" placeholder="Category Name" value="<?php echo $categoryName ?>" id="categoryName">
-                                    <span style="color:red;"><?php if ($categoryName != "") {} else {echo $name_error;} ?></span>
+                                    <span style="color:red;"><?php if ($categoryName != "") {
+                                                                } else {
+                                                                    echo $name_error;
+                                                                } ?></span>
 
                                 </div>
-
                                 <div class="col-md-6">
                                     <label for="parent_category_id" class="form-label">Parent Category </label>
                                     <select id="parent_category_id" name="parent_category_id" class="form-select tablesize">
@@ -97,24 +93,19 @@ if (isset($_POST["submit"])) {
                                     </select>
                                 </div>
                                 <div class="col-12">
-
                                     <label for="">Category Description <span class="star">*</span> </label>
                                     <div class="form-floating">
                                         <textarea name="categoryDes" class="tablesize" id="editor" cols="30" rows="10" required>
                                         </textarea>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
 
                                     <label for="">Category Image <span class="star">*</span></label>
 
                                     <input type="file" name="categoryImage" id="img-upload">
-                                 
                                 </div>
-
                                 <div class="col-md-4">
-
                                     <img src="images/remove3.png" class="categoryimage" id="img-upload-tag" alt="category" width="60px" />
                                 </div>
                                 <div class="col-12">

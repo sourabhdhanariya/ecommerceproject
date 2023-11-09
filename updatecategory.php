@@ -167,6 +167,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 });
                             });
                         </script>
-
                         <script src="./js/updatecategory.js"></script>
                         <?php include 'footer.php' ?>

@@ -22,10 +22,8 @@ class Login extends Database
             0,
             $iv
         );
-
         $query = "SELECT * FROM tb_user WHERE email='" . $email . "' AND password='" . $encryptedPassword . "'";
         $result = $this->mysqli->query($query);
-
         if ($result) {
             if ($result->num_rows == 1) {
                 session_start();
@@ -38,7 +36,5 @@ class Login extends Database
             echo CATEGORI_QUERY;
         }
     }
-
-
 }
 ?>

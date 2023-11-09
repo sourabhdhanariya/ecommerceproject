@@ -26,17 +26,15 @@ class Categori extends Database
             // Use a default image path when $categoryImage is empty
             $uploadedFileName = 'remove3.png'; // Change this to your default image path
         }
-    
         $dataToInsert = [
             "category_name" => $categoryName,
             "category_description" => $categoryDes,
             "category_image_path" => $uploadedFileName,
             "parent_category_id" => $parent_category_id,
         ];
-    
         try {
             $result = $this->insertData("categories", $dataToInsert);
-    
+
             if ($result === true) {
                 return ["success" => true, "msg" => CATEGORY_SUCCESS];
             } else {
@@ -57,11 +55,10 @@ class Categori extends Database
      * @param string parent_category_id
      * @param array categoryImage
      */
-    public function updateCategory(string $categoryName, string $categoryDescription, string $parentCategoryId, array $categoryImage, $obj)
+    public function updateCategory(string $categoryName, string $categoryDescription, string $parentCategoryId, array $categoryImage)
     {
         $id = $_POST["id"] ?? "";
         $uploadedFileName = "";
-
         if (isset($_FILES["categoryImage"]) && $_FILES["categoryImage"]["error"] === UPLOAD_ERR_OK) {
             $fileExtension = pathinfo($_FILES["categoryImage"]["name"], PATHINFO_EXTENSION);
 
@@ -93,7 +90,7 @@ class Categori extends Database
 
         $whereClause = "category_id = $id";
 
-        $updateResult = $obj->updateData("categories", $updateParams, $whereClause);
+        $updateResult = $this->updateData("categories", $updateParams, $whereClause);
 
         if ($updateResult) {
             return ["success" => true, "msg" => CATEGORY_UPDATE];
@@ -108,7 +105,6 @@ class Categori extends Database
      * Sync Batch Close Recode on QBO
      * @param int id 
      */
-
     public function selectCategory(int $id)
     {
         $table = "categories";
@@ -117,7 +113,6 @@ class Categori extends Database
 
         return $this->selectData($table, $columns, null, $where);
     }
-
     public function categoryFilter()
     {
         $table = "categories";
@@ -125,40 +120,32 @@ class Categori extends Database
 
         return $this->selectData($table, $columns, null);
     }
-
     /**
      * Sync Batch Close Recode on QBO
      * @param int parent_category_id 
      */
-
-
-    public function parentCategory(int $parent_category_id)
+    public function parentCategory(int $parentCategoryId)
     {
         $table = "categories";
         $columns = "category_name";
-        $where = "category_id = '$parent_category_id'";
+        $where = "category_id = '$parentCategoryId'";
 
         return $this->selectData($table, $columns, null, $where);
     }
-
     public function getCategories()
     {
         $table = 'categories c1';
         $columns = 'c1.category_id, c1.category_name, c1.parent_category_id, c1.category_description, c1.category_image_path, c1.status, (SELECT c2.category_name FROM categories c2 WHERE c2.category_id = c1.parent_category_id) AS parent_category_name';
-
         return $this->selectData($table, $columns);
     }
-
     public function updateCategoryStatus()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $categoryId = isset($_POST["id"]) ? $_POST["id"] : 0;
             $newStatus = isset($_POST["active"]) ? ($_POST["active"] == "Active" ? 1 : 0) : 0;
-
             $updateParams = ["status" => $newStatus];
             $whereClause = "category_id = $categoryId";
             $updateResult = $this->updateData("categories", $updateParams, $whereClause);
-
             if ($updateResult == 1) {
             } else {
                 echo CATEGORY_UPDATESTATUS_ERROR . implode(", ", $this->getResult());

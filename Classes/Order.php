@@ -20,7 +20,6 @@ class Order extends Database
                 echo "Invalid status value!";
                 exit;
             }
-
             $updateParams = array('status' => $newStatus);
             $whereClause = "id  = $id";
             $updateResult = $this->updateData('customer_order', $updateParams, $whereClause);
@@ -35,9 +34,6 @@ class Order extends Database
     {
         $table = "customer_order";
         $columns = "`id`, `order_id`, `product_id`, `product_name`, `product_image`, `category`, `customer_name`, `customer_address`, `shiping_address`, `city`, `state`, `country`, `zip`, `order_date`, `shiping_city`, `shiping_state`, `shiping_country`, `shiping_zip`, `price`, `quantity`, `status`";
-        
         return "SELECT $columns FROM $table";
     }
-    
-    
 }

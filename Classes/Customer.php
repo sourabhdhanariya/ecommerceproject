@@ -3,7 +3,6 @@
 /**
  * updateCustomer, getCustomer, customerById,updateCustomerStatus 
  */
-
 class Customer extends Database
 {
     /**
@@ -60,10 +59,8 @@ class Customer extends Database
             'shipping_country' => $shippingCountry,
             'shipping_zip' => $shippingZip
         ];
-
         $whereClause = "customer_id = $id";
         $updateResult = $this->updateData("customer", $updateParams, $whereClause);
-
         if ($updateResult) {
             return ["success" => true, "msg" => CUSTOMER_UPDATE];
         } else {
@@ -73,23 +70,23 @@ class Customer extends Database
             ];
         }
     }
-
     public function updateCustomerStatus()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $categoryId = isset($_POST['id']) ? $_POST['id'] : 0;
             $newStatus = isset($_POST['active']) ? ($_POST['active'] == 'Active' ? 1 : 0) : 0;
-
             $updateParams = array('status' => $newStatus);
             $whereClause = "customer_id = $categoryId";
             $updateResult = $this->updateData('customer', $updateParams, $whereClause);
-
             if ($updateResult) {
             } else {
                 echo CUSTOMER_STATUS_ERROR . implode(', ', $this->getResult());
             }
         }
     }
+    /**
+     * get customer customer table data 
+     */
     public function getCustomer()
     {
         $table = 'customer';
@@ -102,14 +99,11 @@ class Customer extends Database
     /**
      * @param int $id 
      */
-
-
     public function customerById(int  $id)
     {
         $table = "customer";
         $columns = " `customer_name`, `customer_mobile`, `customer_email`, `customerbilling_address1`, `customerbilling_address2`, `customerbilling_city`, `customerbilling_state`, `customerbilling_country`, `customerbilling_zip`, `shipping_address1`, `shipping_address2`, `shipping_city`, `shipping_state`, `shipping_country`, `shipping_zip`, `status`, `customer_date`";
         $where = "customer_id = '$id'";
-
         return $this->selectData($table, $columns, null, $where);
     }
 }

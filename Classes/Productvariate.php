@@ -1,4 +1,7 @@
 <?php
+/**
+ * productvairate  
+ */
 
 class Productvariate extends Database
 {
@@ -8,12 +11,4 @@ class Productvariate extends Database
         $join = 'product_attribute AS pa ON pa.variate_id = pv.id';
         return $this->selectData1($table, $columns, $join);
     }
-    public function productVariate1()
-    {
-        $table = 'product_variants ';
-        $columns = '`id`, `name`, `attribute`';
-
-        return $this->selectData($table, $columns);
-    }
-    
 }

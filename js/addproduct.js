@@ -316,3 +316,99 @@ $('#categoryFormUpdate').validate({
         form.submit();
     }
 });
+jQuery(document).ready(function() {
+  jQuery('#datepicker').datepicker({
+    dateFormat: 'yy-mm-dd',
+    minDate: 0
+  });
+});
+$(document).ready(function() {
+$.ajax({
+url: 'Classes/get_categories.php',
+method: 'GET',
+dataType: 'json',
+success: function(data) {
+$('#categoryComboTree').comboTree({
+    source: data,
+    isMultiple: false,
+    cascadeSelect: false,
+    collapse: true,
+    selectName: 'title',
+    selectValue: 'id',
+});
+
+// Add an event listener to handle changes in the comboTree selection
+$('#categoryComboTree').on('combotree:change', function(event, values) {
+    // Get the selected category ID
+    var selectedCategoryID = values[0];
+
+    // Update the hidden input field's value with the selected category ID
+    $('#selectedCategoryId').val(selectedCategoryID);
+});
+},
+error: function(xhr, status, error) {
+console.error(error);
+}
+});
+});
+
+$(document).ready(function() {
+var max_fields = 10; // maximum input boxes allowed
+var wrapper = $(".input_fields_wrap"); // Fields wrapper
+var add_button = $(".extra-fields-customer"); // Add button ID
+var x = 1; // initial text box count
+
+$(add_button).click(function(e) {
+e.preventDefault();
+if (x < max_fields) {
+    x++;
+
+    var fieldHtml = `
+        <div>
+            <div class="form-row ms-5">
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="variate_name[${x}]" id="variate_name_${x}">
+                        <option>Color</option>
+                        <option>Size</option>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                <input type="checkbox"  class="enable-disable ms-5" name="mycheckbox[${x}]"/>
+                <input type="text" class="h-75"  name="mytext[${x}]" disabled/>
+                <input type="text" class="ms-5 h-75" placeholder="Please Enter Quality" name="mydate[${x}]" disabled/>
+            </div>
+          
+<a name="" id="" class="btn btn-danger remove_field" style="height:36px;" href="#" role="button">X</a>
+            </div>
+        </div>
+    `;
+
+    $(wrapper).append(fieldHtml);
+}
+});
+
+$(wrapper).on("click", ".remove_field", function(e) {
+e.preventDefault();
+$(this).closest('div').remove();
+x--;
+});
+
+// Add event listener for checkbox elements in dynamically added fields
+wrapper.on("change", ".enable-disable", function() {
+var textInputs = $(this).siblings("input[type='text']");
+textInputs.prop("disabled", !this.checked);
+});
+});
+function updateVariate() {
+var selectElement = document.getElementById("parent_category_id");
+var inputElement = document.getElementById("enter_variate");
+
+// Get the selected option's value
+var selectedValue = selectElement.value;
+
+// Get the attribute name associated with the selected value
+var attributeName = getAttributeName(selectedValue);
+
+// Set the value of the "Enter Variate" input field to the attribute name
+inputElement.value = attributeName;
+}

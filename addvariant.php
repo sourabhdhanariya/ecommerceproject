@@ -11,7 +11,6 @@ if (isset($_POST["submit"])) {
    
 }
 ?>
-
 <?php if (!empty($response) && $response["success"] === true) : ?>
     <script>
         toastr.success('<?php echo $response["msg"]; ?>', 'Success');
@@ -21,7 +20,6 @@ if (isset($_POST["submit"])) {
         toastr.error('<?php echo $response["msg"]; ?>', 'Error');
     </script>
 <?php endif; ?>
-
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <!-- Main-body start -->
@@ -57,9 +55,7 @@ if (isset($_POST["submit"])) {
                                 <div class="col-md-12">
 
                                     <label>Attribute</label>
-                                    <div class="multi-field-wrapper">
-
-                                
+                                    <div class="multi-field-wrapper">    
                                 <div class="multi-fields d-flex">
                                             <div class="multi-field d-flex pl-3">
                                                 <input type="text" name="attribute[]" class="form-control tablesize text-capitalize">      
@@ -72,9 +68,7 @@ if (isset($_POST["submit"])) {
                                         <button type="button" class="add-field mt-3 bg-danger"> <i class="ti-plus"></i></button>
                                     </div>
                                 </div>
-                                </div>
-
-                                
+                                </div>                        
                                 <div class="col-12">
                                     <a class="btn btn-outline-dark buttonsize" href="product_variant.php" role="button">
                                         Cancel
@@ -83,16 +77,6 @@ if (isset($_POST["submit"])) {
                                 </div>
                             </form>
                         </div>
-                        <script>
-                            $('.multi-field-wrapper').each(function() {
-                                var $wrapper = $('.multi-fields', this);
-                                $(".add-field", $(this)).click(function(e) {
-                                    $('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
-                                });
-                                $('.multi-field .remove-field', $wrapper).click(function() {
-                                    if ($('.multi-field', $wrapper).length > 1)
-                                        $(this).parent('.multi-field').remove();
-                                });
-                            });
-                        </script>
+                        
+                        <script src="./js/addvariate.js"></script>
                         <?php include "footer.php"; ?>

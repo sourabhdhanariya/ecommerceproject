@@ -22,10 +22,8 @@ include 'Classes/Categori.php';
                             </li>
                         </ul>
                     </div>
-
                 </div>
-                <!-- Page-header end -->
-
+              <!-- Page-header end -->
                 <!-- Page-body start -->
                 <div class="page-body">
                     <!-- Basic table card start -->
@@ -33,7 +31,6 @@ include 'Classes/Categori.php';
                         <div class="card-header">
                             <span> <a class="btn btn-primary btn-sm float-end" href="addcategory.php" role="button"> + Add </a>
                             </span>
-
                         </div>
                         <div class="card-block table-border-style">
                             <div class="table-responsive tablesize ">
@@ -48,12 +45,10 @@ include 'Classes/Categori.php';
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
+                                   <tbody>
                                         <?php
                                         $obj = new Categori();
                                         $obj->updateCategoryStatus();
-
                                         // Fetch and display the updated data
                                         $categories = $obj->getCategories();
                                         $counter = 1;
@@ -67,7 +62,6 @@ include 'Classes/Categori.php';
                                                 $status = $row["status"];
                                                 $statusLabel = $status == 1 ? "Active" : "Inactive";
                                         ?>
-
                                                 <tr>
                                                     <td><?= $counter ?></td>
                                                     <td class="capitalize"><?= $name ?></td>
@@ -76,11 +70,9 @@ include 'Classes/Categori.php';
                                                         <form method="post">
                                                             <input type="hidden" name="id" value="<?= $id ?>">
                                                             <input type="hidden" name="active" value="<?= $statusLabel ?>">
-                                                            <button type="button" style="font-size:9px" class="status-toggle btn btn-link tablesize togglelineremove tooglesize <?= $statusLabel ===
-                                                                                                                                                                                    "Active" ? "active-button" : "inactive-button" ?>" data-categoryid="<?= $id ?>" data-status="<?= $statusLabel ?>"><?= $statusLabel ?></button>
+                                                            <button type="button" style="font-size:9px" class="status-toggle btn btn-link tablesize togglelineremove tooglesize <?= $statusLabel ===                                                                                                                                              "Active" ? "active-button" : "inactive-button" ?>" data-categoryid="<?= $id ?>" data-status="<?= $statusLabel ?>"><?= $statusLabel ?></button>
                                                         </form>
                                                     </td>
-
                                                     <td>
                                                         <div class="d-flex ms-5 ml-1">
                                                             <button type="button" class="btn view-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-category-id="<?= $id ?>" data-category-name="<?= $name ?>" data-category-description="<?= $desciption ?>" data-category-path="images/category/<?= $image_path ?>" data-category-parent="<?= $parent_id ?>">
@@ -104,44 +96,29 @@ include 'Classes/Categori.php';
                                             </tr>
                                         <?php
                                         }
-
                                         ?>
-
-
-                                    </tbody>
+                                 </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-md">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title text-center" id="exampleModalLabel">Category</h5>
-
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="modelbox d-flex">
-                                      
-                                    
                                         <img id="category-image" class=" p-3 mb-5 bg-body rounded w-25" alt="Category Image" src="images/remove3.png" />
-                                    
-                                        
-                            
                                         <div class="text p-3 w-75 ">
                                             <h6 class="fw-bold tables tablesize">Category: <span class="float-end fw-normal" id="categoryname"></span></h6>
                                             <h6 class=" fw-bold tablesize">Parent Category: <span class="float-end fw-normal" id="category-parent"></span></h6>
-
-
                                             <h6 class="tablesize fw-bold ">Descrition : <spanc class="fw-normal" id="category-description"> </spanc>
                                             </h6>
                                             <p class="invisible">Category ID: <span id="category-id-placeholder"></span></p>
-
                                         </div>
-
-
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -151,5 +128,4 @@ include 'Classes/Categori.php';
                         </div>
                     </div>
                     <script src="./js/category.js"></script>
-
                     <?php include 'footer.php' ?>
